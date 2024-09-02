@@ -4,7 +4,7 @@ from kivy.lang import Builder
 kv = """
 BoxLayout:
     Label:
-        text: 'Hello Worlding'
+        text: 'Hello World'
 """
 
 
