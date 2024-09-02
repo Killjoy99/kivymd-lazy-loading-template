@@ -34,12 +34,17 @@ jobs:
       run: |
         mkdir -p $HOME/android-sdk/cmdline-tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip -O cmdline-tools.zip
-        unzip cmdline-tools.zip -d $HOME/android-sdk/cmdline-tools
+        unzip -q cmdline-tools.zip -d $HOME/android-sdk/cmdline-tools
+        mkdir -p $HOME/android-sdk/cmdline-tools/latest
         mv $HOME/android-sdk/cmdline-tools/cmdline-tools $HOME/android-sdk/cmdline-tools/latest
         export ANDROID_SDK_ROOT=$HOME/android-sdk
-        export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH
         echo "ANDROID_SDK_ROOT=$HOME/android-sdk" >> $GITHUB_ENV
-        echo "PATH=$HOME/android-sdk/cmdline-tools/latest/bin:$HOME/android-sdk/platform-tools:$PATH" >> $GITHUB_ENV
+        echo "PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH" >> $GITHUB_ENV
+
+    - name: Install Android SDK components
+      shell: bash
+      run: |
+        source $GITHUB_ENV
         yes | $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --install "platform-tools" "build-tools;30.0.3" "platforms;android-30"
         yes | $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses
 
@@ -54,7 +59,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: kivy-app-build
-        path: ../build  # Path to your build output directory
+        path: bin  # Path to your build output directory
 
     - name: Notify build status
       run: |
