@@ -1,4 +1,2 @@
 kivy
-pyjnius
 cython
-Aidl
