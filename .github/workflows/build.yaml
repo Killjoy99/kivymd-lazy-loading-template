@@ -32,9 +32,10 @@ jobs:
 
     - name: Install Android SDK and NDK
       run: |
+        mkdir -p $HOME/android-sdk/cmdline-tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip -O cmdline-tools.zip
-        mkdir -p $HOME/android-sdk/cmdline-tools/latest
-        unzip -q cmdline-tools.zip -d $HOME/android-sdk/cmdline-tools/latest
+        unzip cmdline-tools.zip -d $HOME/android-sdk/cmdline-tools
+        mv $HOME/android-sdk/cmdline-tools/cmdline-tools $HOME/android-sdk/cmdline-tools/latest
         export ANDROID_SDK_ROOT=$HOME/android-sdk
         export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH
         echo "ANDROID_SDK_ROOT=$HOME/android-sdk" >> $GITHUB_ENV
