@@ -1,0 +1,48 @@
+name: Build Kivy App
+
+on:
+  push:
+    branches:
+      - main  # or the branch you want to trigger the build on
+  pull_request:
+    branches:
+      - main  # or the branch you want to trigger the build on
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'  # specify the Python version you are using
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install kivy
+        pip install buildozer
+        pip install -r requirements.txt  # if you have a requirements file
+
+    - name: Set up Buildozer
+      run: |
+        buildozer init
+        # Optional: customize the buildozer.spec file if needed
+
+    - name: Build Kivy app
+      run: |
+        buildozer -v android debug  # or the command you use to build your app for the desired platform
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: kivy-app-build
+        path: bin  # specify the path to the build output
+
+    - name: Notify build status
+      run: |
+        echo "Build complete"
