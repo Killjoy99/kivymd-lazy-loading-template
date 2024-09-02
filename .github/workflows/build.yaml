@@ -24,25 +24,39 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        pip install kivy
         pip install buildozer
-        buildozer android clean
-        buildozer android update
-        pip install -r requirements.txt  # if you have a requirements file
+        pip install cython  # Cython is often required for Kivy
 
-    - name: Set up Buildozer
+    - name: Install Android SDK and NDK
       run: |
-        buildozer init
-        # Optional: customize the buildozer.spec file if needed
+        sudo apt-get update
+        sudo apt-get install -y openjdk-8-jdk wget unzip
+        wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip -O cmdline-tools.zip
+        mkdir -p $HOME/android-sdk/cmdline-tools
+        unzip -q cmdline-tools.zip -d $HOME/android-sdk/cmdline-tools
+        export ANDROID_SDK_ROOT=$HOME/android-sdk
+        export PATH=$ANDROID_SDK_ROOT/cmdline-tools/bin:$PATH
+        yes | sdkmanager --sdk_root=$ANDROID_SDK_ROOT --install "platform-tools" "build-tools;30.0.3" "platforms;android-30"
+        sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
+
+    - name: Set environment variables
+      run: |
+        echo "ANDROIDSDK=$HOME/android-sdk" >> $GITHUB_ENV
+        echo "PATH=$HOME/android-sdk/platform-tools:$HOME/android-sdk/build-tools/30.0.3:$PATH" >> $GITHUB_ENV
 
     - name: Build Kivy app
+      env:
+        ANDROIDSDK: ${{ env.ANDROIDSDK }}
+        PATH: ${{ env.PATH }}
       run: |
-        buildozer -v android debug  # or the command you use to build your app for the desired platform
+        buildozer -v android debug
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: kivy-app-build
-        path: bin  # specify the path to the build output
+        path: build  # specify the path to the build output
 
     - name: Notify build status
       run: |
