@@ -22,7 +22,7 @@ class MainApp(MDApp):
         # refer https://kivy.org/doc/stable/api-kivy.app.html#kivy.app.App.root
         self.root = Root()
 
-        self.root.push("auth")
+        self.root.push("welcome")
 
 
 if __name__ == "__main__":

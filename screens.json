@@ -1,8 +1,8 @@
 {
-    "auth": {
-        "module": "libs.uix.baseclass.screens.auth_screen",
+    "welcome": {
+        "module": "libs.uix.baseclass.screens.welcome",
         "class": "AuthScreen",
-        "kv": "libs/uix/kv/screens/auth_screen.kv"
+        "kv": "libs/uix/kv/screens/welcome.kv"
     },
     "home": {
         "module": "libs.uix.baseclass.screens.home_screen",

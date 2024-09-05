@@ -12,6 +12,7 @@ from kivymd.uix.screenmanager import MDScreenManager
 from libs.applibs import utils
 
 logging.basicConfig(level=logging.INFO)
+################################################# OPTIMISED DATA SHARING METHODS ####################################
 
 
 class Root(MDScreenManager):
