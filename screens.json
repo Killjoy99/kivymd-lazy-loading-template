@@ -1,7 +1,7 @@
 {
     "welcome": {
         "module": "libs.uix.baseclass.screens.welcome",
-        "class": "AuthScreen",
+        "class": "WelcomeScreen",
         "kv": "libs/uix/kv/screens/welcome.kv"
     },
     "home": {

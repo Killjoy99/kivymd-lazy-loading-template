@@ -1,4 +1,4 @@
-import asyncio
+import asyncio  # noqa: F401
 
 from kivy.core.window import Window
 from kivymd.app import MDApp
@@ -26,4 +26,4 @@ class MainApp(MDApp):
 
 
 if __name__ == "__main__":
-    asyncio.run(MainApp().async_run())
+    MainApp().run()

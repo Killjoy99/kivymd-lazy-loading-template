@@ -1,12 +1,12 @@
 import logging
 
-from httpx import AsyncClient, ConnectError
+from httpx import Client, ConnectError
 
-client = AsyncClient()
+client = Client()
 
 
 class ConnectionManager:
-    def __init__(self, client: AsyncClient) -> None:
+    def __init__(self, client: Client) -> None:
         self.client = client
 
     def get_google(self):
