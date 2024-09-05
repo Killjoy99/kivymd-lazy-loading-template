@@ -1,11 +1,13 @@
 <HomeScreen>
-
-    BoxLayout:
+    md_bg_color: root.theme_cls.backgroundColor
+    MDBoxLayout:
         orientation: "vertical"
 
-        Label:
-            text: "Current Screen: " + root.name
+        MDLabel:
+            text: root.username
 
-        Button:
-            text: "GOTO SETTINGS"
-            on_release: root.manager.push("settings")
+        MDButton:
+            on_release: root.manager.set_shared_data("username", "Updated Username")
+
+            MDButtonText:
+                text: "Update Data"

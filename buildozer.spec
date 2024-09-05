@@ -48,7 +48,8 @@ requirements = python3,
     materialyoucolor,
     exceptiongroup,
     asyncgui,
-    asynckivy
+    asynckivy,
+    httpx
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

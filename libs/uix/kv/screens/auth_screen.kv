@@ -1,11 +1,13 @@
 <AuthScreen>
-
-    BoxLayout:
+    md_bg_color: root.theme_cls.backgroundColor
+    MDBoxLayout:
         orientation: "vertical"
 
-        Label:
+        MDLabel:
             text: "Current Screen: " + root.name
 
-        Button:
-            text: "Login (Dummy)"
+        MDButton:
             on_release: root.login()
+
+            MDButtonText:
+                text: "Login (Dummy)"

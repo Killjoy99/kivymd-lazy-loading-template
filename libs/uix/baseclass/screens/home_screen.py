@@ -1,12 +1,18 @@
+from kivy.properties import StringProperty
 from kivymd.uix.screen import MDScreen
 
-from libs.applibs.utils import DataDispatcher
 
+class HomeScreen(MDScreen):
+    # Property to hold the shared Username
+    username = StringProperty()
 
-class HomeScreen(DataDispatcher, MDScreen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.bind(on_data_shared=self.receive_data)
+    def on_enter(self):
+        # set the username as the usernae in the shared data storage
+        self.username = self.manager.get_shared_data("username")
+        if self.manager:
+            # Bind the shared_data to the update_example_data method
+            self.manager.bind(shared_data=self.update_username)
 
-    def receive_data(self, instance, data):
-        print(f"Received data:: {data}")
+    def update_username(self, instance, value):
+        """Callback function to update the screen data when shared data changes."""
+        self.username = value.get("username", "")

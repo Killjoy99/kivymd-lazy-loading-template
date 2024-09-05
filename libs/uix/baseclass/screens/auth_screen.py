@@ -1,15 +1,9 @@
 from kivymd.uix.screen import MDScreen
 
-from libs.applibs.utils import DataDispatcher
 
-
-class AuthScreen(DataDispatcher, MDScreen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
+class AuthScreen(MDScreen):
     def login(self):
-        user_data = {"username": "Philani"}
-
-        self.share_data(user_data)
+        username = "Philani"
+        self.manager.set_shared_data("username", username)
         # change to home screen
-        self.manager.push_replacement("home")
+        self.manager.push_replacement("home", transition_type="fade")

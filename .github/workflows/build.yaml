@@ -25,7 +25,7 @@ jobs:
         shell: bash
 
       - name: Cache Buildozer global directory
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: .buildozer_global
           key: buildozer-global-${{ hashFiles('buildozer.spec') }}
@@ -84,16 +84,16 @@ jobs:
 
       # Set up Java 17 required by Gradle
       - name: Setup Java 17 required by Gradle
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'  # or 'zulu', 'liberica', etc.
           java-version: '17'
 
       # Set up Python
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.8' #set your python version
+          python-version: '3.11' #set your python version
 
       # Install pip dependencies
       - name: Install pip dependencies

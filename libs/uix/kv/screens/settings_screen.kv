@@ -1,11 +1,13 @@
 <SettingsScreen>
-
-    BoxLayout:
+    md_bg_color: root.theme_cls.backgroundColor
+    MDBoxLayout:
         orientation: "vertical"
 
-        Label:
+        MDLabel:
             text: "Current Screen: " + root.name
 
-        Button:
-            text: "GOTO HOME"
+        MDButton:
             on_release: root.manager.pop()
+
+            MDButtonText:
+                text: "GOTO HOME"

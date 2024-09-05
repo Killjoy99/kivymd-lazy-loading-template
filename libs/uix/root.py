@@ -1,110 +1,144 @@
+import importlib
 import json
+import logging
+from typing import Optional
 
 from kivy.core.window import Window
 from kivy.lang import Builder
+from kivy.properties import DictProperty
+from kivy.uix.screenmanager import FadeTransition
 from kivymd.uix.screenmanager import MDScreenManager
 
 from libs.applibs import utils
 
+logging.basicConfig(level=logging.INFO)
+
 
 class Root(MDScreenManager):
-    history = []
+    history = []  # List of tuples (screen_name, side)
+    shared_data = DictProperty()
+    # Cache screens for faster loading
+    _screen_cache = {}
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.shared_data = {}
         Window.bind(on_keyboard=self._handle_keyboard)
-        # get screen data from screens.json
-        with open(utils.abs_path("screens.json")) as f:
-            self.screens_data = json.load(f)
 
-    def _handle_keyboard(self, instance, key, *args):
-        if key == 27:
-            self.pop()
-            return True
+        try:
+            with open(utils.abs_path("screens.json")) as f:
+                self.screens_data = json.load(f)
+        except (IOError, json.JSONDecodeError) as e:
+            logging.error(f"Error loading screens data: {e}")
+            self.screens_data = {}
 
-    def load_screen(self, screen_name):
-        """
-        This method creates an instance of the screen object and adds
-        it to the screen manager without making it the current screen.
-
-        It is useful in situations where certain state needs
-        to be passed to that screen.
-        """
-
-        # checks if the screen is already added to the screen-manager
-        if not self.has_screen(screen_name):
-            screen = self.screens_data[screen_name]
-            # load the kv file (libs/uix/kv/screen_kv_file.kv)
-            Builder.load_file(utils.abs_path(screen["kv"]))
-            # import screen class dynamically
-            # (from libs.uix.baseclass.screen_py_file import ScreenObjectName)
-            exec(screen["import"])
-            # calls the screen class to get the instance of it
-            # (ScreenObjectName())
-            screen_object = eval(screen["object"])
-            # set the screen name using screen_name arg
-            screen_object.name = screen_name
-            # add the screen to the screen-manager
-            self.add_widget(screen_object)
-
-    def push(self, screen_name, side="left"):
-        """
-        Appends the screen to the navigation history and
-        sets `screen_name` it as the current screen.
-        """
-
+    def push(
+        self, screen_name: str, side: str = "left", transition_type: str = "slide"
+    ) -> None:
+        """Appends the screen to the navigation history and sets `screen_name` as the current screen."""
         if self.current != screen_name:
-            self.history.append({"name": screen_name, "side": side})
+            self.history.append((screen_name, side))
 
         self.load_screen(screen_name)
 
-        # set transition direction
-        self.transition.direction = side
+        if transition_type == "slide":
+            self.transition.direction = side
+        elif transition_type == "fade":
+            self.transition = FadeTransition()
+        else:
+            logging.warning(
+                f"Unknown transition type: {transition_type}. Defaulting to 'slide'."
+            )
+            self.transition.direction = side
 
-        # set current screen
         self.current = screen_name
 
-    def push_replacement(self, screen_name, side="left"):
-        """
-        Clears the navigation history and sets the
-        current screen to `screen_name`.
-        """
-
+    def push_replacement(
+        self, screen_name: str, side: str = "left", transition_type: str = "slide"
+    ) -> None:
+        """Clears the navigation history and sets the current screen to `screen_name`."""
         self.history.clear()
-        self.push(screen_name, side)
+        self.push(screen_name, side, transition_type)
 
-    def pop(self):
-        """
-        Removes the current screen from the navigation history and
-        sets the current screen to the previous one.
-
-        To navigate back to the previous screen, use the this method.
-
-        It is automatically triggered when the user presses the back button on
-        a mobile device or the ESC button on a desktop.
-
-        Avoid using `scr_mgr_instance.push('prev_screen_name', side='right')`
-        as it will collapse the navigation history of the screen manager
-        instead use this method.
-        """
-
-        if not len(self.history) > 1:
+    def back(self) -> None:
+        """Removes the current screen from the navigation history and sets the current screen to the previous one."""
+        if len(self.history) <= 1:
+            logging.info("No previous screen to back to.")
             return
 
-        cur_side = self.history.pop()["side"]
-        prev_screen = self.history[-1]
+        cur_screen, cur_side = self.history.pop()
+        prev_screen, _ = self.history[-1]
 
-        if cur_side == "left":
-            side = "right"
-        elif cur_side == "right":
-            side = "left"
-        elif cur_side == "up":
-            side = "down"
-        elif cur_side == "down":
-            side = "up"
+        self.transition.direction = {
+            "left": "right",
+            "right": "left",
+            "up": "down",
+            "down": "up",
+        }.get(cur_side, "left")
 
-        # set transition direction
-        self.transition.direction = side
+        self.current = prev_screen
 
-        # set current screen
-        self.current = prev_screen["name"]
+    def set_shared_data(self, key: str, value: Optional[any]) -> None:
+        """Sets a key-value pair in the shared data store."""
+        self.shared_data[key] = value
+
+    def get_shared_data(self, key: str) -> Optional[any]:
+        """Returns the value associated with `key` in the shared data store."""
+        return self.shared_data.get(key, None)
+
+    def _handle_keyboard(self, instance, key: int, *args) -> bool:
+        if key == 27:  # ESC key
+            self.back()
+            return True
+
+    def load_screen(self, screen_name: str) -> None:
+        """Creates an instance of the screen object and adds it to the screen manager."""
+        if self.has_screen(screen_name):
+            return  # Screen already loaded
+
+        if screen_name in self._screen_cache:
+            screen_object = self._screen_cache[screen_name]
+        else:
+            screen = self.screens_data.get(screen_name)
+            if not screen:
+                logging.warning(f"Screen {screen_name} not found in screens data.")
+                return
+
+            try:
+                # Load KV file
+                kv_path = screen.get("kv")
+                if kv_path:
+                    kv_file_path = utils.abs_path(kv_path)
+                    try:
+                        Builder.load_file(kv_file_path)
+                    except FileNotFoundError:
+                        logging.error(f"KV file {kv_file_path} not found.")
+
+                # Import screen class dynamically
+                module_name = screen.get("module")
+                class_name = screen.get("class")
+
+                if not module_name or not class_name:
+                    logging.warning(
+                        f"Missing 'module' or 'class' in screen data for {screen_name}."
+                    )
+                    return
+
+                try:
+                    module = importlib.import_module(module_name)
+                    screen_class = getattr(module, class_name)
+                except (ImportError, AttributeError) as e:
+                    logging.error(
+                        f"Error importing class {class_name} from module {module_name}: {e}"
+                    )
+                    return
+
+                screen_object = screen_class()
+                screen_object.name = screen_name
+                self._screen_cache[screen_name] = screen_object
+                self.add_widget(screen_object)
+
+            except FileNotFoundError:
+                logging.error(f"Screen {screen_name} definition file not found.")
+            except Exception as e:
+                logging.error(f"Unexpected error loading screen {screen_name}: {e}")

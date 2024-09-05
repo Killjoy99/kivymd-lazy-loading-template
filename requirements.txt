@@ -1,2 +1,4 @@
 kivy
 cython
+httpx
+kivymd==2.0.0

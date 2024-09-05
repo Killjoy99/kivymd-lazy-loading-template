@@ -1,17 +1,17 @@
 {
     "auth": {
-        "import": "from libs.uix.baseclass.screens.auth_screen import AuthScreen",
-        "object": "AuthScreen()",
+        "module": "libs.uix.baseclass.screens.auth_screen",
+        "class": "AuthScreen",
         "kv": "libs/uix/kv/screens/auth_screen.kv"
     },
     "home": {
-        "import": "from libs.uix.baseclass.screens.home_screen import HomeScreen",
-        "object": "HomeScreen()",
+        "module": "libs.uix.baseclass.screens.home_screen",
+        "class": "HomeScreen",
         "kv": "libs/uix/kv/screens/home_screen.kv"
     },
     "settings": {
-        "import": "from libs.uix.baseclass.screens.settings_screen import SettingsScreen",
-        "object": "SettingsScreen()",
+        "module": "libs.uix.baseclass.screens.settings_screen",
+        "class": "SettingsScreen",
         "kv": "libs/uix/kv/screens/settings_screen.kv"
     }
 }
