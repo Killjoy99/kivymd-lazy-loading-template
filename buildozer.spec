@@ -34,7 +34,7 @@ source.include_exts = py,png,jpg,kv,atlas,gif,json
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.0.2
+version = 0.0.3
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -49,8 +49,10 @@ requirements = python3,
     exceptiongroup,
     asyncgui,
     asynckivy,
-# httpx, The app crashes here
-    plyer
+    httpx,
+    plyer,
+    pillow,
+    requests
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

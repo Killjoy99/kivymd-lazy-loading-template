@@ -1,10 +1,11 @@
+import io
 import logging
-import os
 from datetime import datetime
 
 from jnius import autoclass
 from kivy.properties import StringProperty
 from kivymd.uix.screen import MDScreen
+from PIL import Image
 
 from libs.applibs.utils import abs_path
 
@@ -45,6 +46,29 @@ class CameraScreen(MDScreen):
         self.username = value.get("username", "")
         logging.info(f"Username updated: {self.username}")
 
+    def get_device_rotation(self):
+        # Access the android rotation services
+        PythonActivity = autoclass("org.kivy.android.PythonActivity")
+        Context = autoclass("android.content.Context")
+        WindowManager = autoclass("android.view.WindowManager")
+        Display = autoclass("android.view.Display")
+        DisplayRotation = autoclass("android.view.Surface")
+
+        context = PythonActivity.mActivity.getApplicationContext()
+        wm = context.getSystemService(Context.WINDOW_SERVICE)
+        display = wm.getDefaultDisplay()
+        rotation = display.getRotation()
+
+        # Map the rotation value to degrees
+        rotation_degrees = {
+            DisplayRotation.ROTATION_0: 0,
+            DisplayRotation.ROTATION_90: 90,
+            DisplayRotation.ROTATION_180: 180,
+            DisplayRotation.ROTATION_270: 270,
+        }.get(rotation, 0)
+
+        return rotation_degrees
+
     def take_picture(self):
         try:
             # Get the camera widget
@@ -55,24 +79,19 @@ class CameraScreen(MDScreen):
             file_name = f"{file_date.year}{file_date.month}{file_date.day}_{file_date.hour}{file_date.minute}{file_date.second}"
             image_path = abs_path(f"data/captures/{file_name}.jpg")
 
-            # Ensure the directory exists
-            os.makedirs(os.path.dirname(image_path), exist_ok=True)
-
             # Capture the current frame from the camera feed
             camera.export_to_png(image_path)
-            logging.info(f"Picture taken and saved to: {image_path}")
+
+            # Open the captured image
+            with open(image_path, "rb") as f:
+                img = Image.open(io.BytesIO(f.read()))
+                # Rotate the image if needed (e.g., by 90 degrees)
+                img = img.rotate(90, expand=True)
+                img.save(image_path)
 
             # Update the label with the file path
             self.ids.label.text = f"Image saved to: {image_path}"
-
-            # Make a toast with pyjnius for the save location
-            Toast = autoclass("android.widget.Toast")
-            Context = autoclass("android.content.Context")
-            PythonActivity = autoclass("org.kivy.android.PythonActivity")
-            context = PythonActivity.mActivity.getApplicationContext()
-            # Display the toast message
-            toast = Toast.makeText(context, "Image Captured", Toast.LENGTH_SHORT)
-            toast.show()
+            logging.info(f"Picture taken and saved to: {image_path}")
 
         except Exception as e:
             logging.error(f"Error taking picture: {e}")
