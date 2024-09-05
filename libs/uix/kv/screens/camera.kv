@@ -16,6 +16,12 @@
             icon: 'camera'
             pos_hint: {"center_x": 0.5}
 
+        MDIconButton:
+            on_press: root.manager.push("network")
+            # size_hint_y: 0.15
+            icon: 'cog'
+            pos_hint: {"center_x": 0.5}
+
         MDLabel:
             id: label
             text: ''

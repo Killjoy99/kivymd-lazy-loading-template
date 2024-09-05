@@ -9,9 +9,9 @@
         "class": "CameraScreen",
         "kv": "libs/uix/kv/screens/camera.kv"
     },
-    "settings": {
-        "module": "libs.uix.baseclass.screens.settings_screen",
-        "class": "SettingsScreen",
-        "kv": "libs/uix/kv/screens/settings_screen.kv"
+    "network": {
+        "module": "libs.uix.baseclass.screens.network",
+        "class": "NetworkScreen",
+        "kv": "libs/uix/kv/screens/network.kv"
     }
 }
