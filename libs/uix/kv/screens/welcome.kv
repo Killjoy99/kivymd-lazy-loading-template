@@ -1,14 +1,32 @@
 <WelcomeScreen>
     md_bg_color: root.theme_cls.backgroundColor
-    
+
     MDBoxLayout:
         orientation: "vertical"
+        padding: [dp(0), dp(0), dp(0), dp(40)]
+        pos_hint: {"center_x": 0.5}
 
         MDLabel:
             text: "Current Screen: " + root.name
+            pos_hint: {"center_x": 0.5}
 
-        MDButton:
-            on_release: root.login()
+        MDBoxLayout:
+            orientation: 'horizontal'
+            spacing: dp(50)
+            pos_hint: {"center_x": 0.5}
 
-            MDButtonText:
-                text: "Login (Dummy)"
+            MDButton:
+                on_release: root.login()
+                radius: dp(0)
+                pos_hint: {"center_x": 0.5}
+
+                MDButtonText:
+                    text: "Login (Dummy)"
+
+            MDButton:
+                on_release: app.theme_cls.theme_style = "Dark" if app.theme_cls.theme_style == "Light" else "Light"
+                radius: dp(0)
+                pos_hint: {"center_x": 0.5}
+
+                MDButtonText:
+                    text: "Change Theme"

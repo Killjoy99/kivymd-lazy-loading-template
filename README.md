@@ -8,7 +8,7 @@ This template also features a **screen navigation system** that simplifies handl
 
 ## Navigation
 
-The [`Root`](https://github.com/kulothunganug/kivy-lazy-loading-template/blob/main/libs/uix/root.py) is based on [`screen`](https://kivy.org/doc/stable/api-kivy.uix.screen.html) and additionally provides a few navigation methods: `push(screen_name, side)`, `push_replacement(screen_name, side)` and `pop()`.
+The [`Root`](https://github.com/kulothunganug/kivy-lazy-loading-template/blob/main/libs/uix/root.py) is based on [`screen`](https://kivy.org/doc/stable/api-kivy.uix.screen.html) and additionally provides a few navigation methods: `push(screen_name, side, transition_type)`, `push_replacement(screen_name, side, transition_type)` and `back()`.
 
 Also `load_screen(screen_name)` method can be used to load the screen and the kv file without setting it as the current screen.
 
@@ -22,8 +22,8 @@ To incorporate additional screens into your app, follow these steps:
 {
     ...,
     "screen_name": {
-        "import": "from libs.uix.baseclass.screen_file import ScreenObjectName",
-        "object": "ScreenObjectName()",
+        "module": "libs.uix.baseclass.screen_file",
+        "class": "ClassName",
         "kv": "libs/uix/kv/screen_file.kv"
     }
 }

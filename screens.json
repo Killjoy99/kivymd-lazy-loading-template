@@ -4,10 +4,10 @@
         "class": "WelcomeScreen",
         "kv": "libs/uix/kv/screens/welcome.kv"
     },
-    "home": {
-        "module": "libs.uix.baseclass.screens.home_screen",
-        "class": "HomeScreen",
-        "kv": "libs/uix/kv/screens/home_screen.kv"
+    "camera": {
+        "module": "libs.uix.baseclass.screens.camera",
+        "class": "CameraScreen",
+        "kv": "libs/uix/kv/screens/camera.kv"
     },
     "settings": {
         "module": "libs.uix.baseclass.screens.settings_screen",

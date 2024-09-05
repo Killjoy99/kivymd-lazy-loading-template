@@ -1,0 +1,22 @@
+<CameraScreen>
+    md_bg_color: root.theme_cls.backgroundColor
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        pos_hint: {"top": 1}
+
+        Camera:
+            id: camera
+            pos_hint: {"center_x": 0.5, "top": 1}
+            size_hint_y: 0.7
+
+        MDIconButton:
+            on_press: root.take_picture()
+            # size_hint_y: 0.15
+            icon: 'camera'
+            pos_hint: {"center_x": 0.5}
+
+        MDLabel:
+            id: label
+            text: ''
+            size_hint_y: 0.15

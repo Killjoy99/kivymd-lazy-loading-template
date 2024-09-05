@@ -18,7 +18,7 @@ package.domain = org.entwenichat
 source.dir = .
 
 # (list) Source files to include (leave empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas, json
+source.include_exts = py,png,jpg,kv,atlas,gif,json
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -49,7 +49,8 @@ requirements = python3,
     exceptiongroup,
     asyncgui,
     asynckivy,
-    httpx
+# httpx, The app crashes here
+    plyer
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -110,7 +111,15 @@ fullscreen = 0
 
 # (list) Permissions
 # (See https://python-for-android.readthedocs.io/en/latest/buildoptions.html for all the supported syntaxes and properties)
-android.permissions = android.permission.INTERNET, (name=android.permission.WRITE_EXTERNAL_STORAGE;maxSdkVersion=18)
+android.permissions = android.permission.INTERNET,
+    android.permission.WRITE_EXTERNAL_STORAGE,
+    android.permission.ACCESS_FINE_LOCATION,
+    android.permission.ACCESS_COARSE_LOCATION,
+    android.permission.READ_EXTERNAL_STORAGE,
+    android.permission.CAMERA,
+    android.permission.RECORD_AUDIO,
+    android.permission.VIBRATE,
+    android.permission.WAKE_LOCK
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
