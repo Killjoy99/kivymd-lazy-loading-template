@@ -50,9 +50,20 @@ requirements = python3,
     asyncgui,
     asynckivy,
     httpx,
+    httpx[http2],
+    httpx[brotli],
+    httpx[zstd],
+    h11,
+    h2,
+    httpx[socks],
     plyer,
     pillow,
-    requests
+    requests,
+    httpcore,
+    certifi,
+    charset-normalizer,
+    idna,
+    sniffio
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
