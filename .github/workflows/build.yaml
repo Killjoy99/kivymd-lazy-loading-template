@@ -87,7 +87,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'  # or 'zulu', 'liberica', etc.
-          java-version: '17'
+          java-version: '21'
 
       # Set up Python
       - name: Set up Python
