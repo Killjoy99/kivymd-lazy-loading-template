@@ -1,10 +1,16 @@
 kivy
 cython
 httpx
-kivymd==2.0.0
+httpx[http2]
+httpx[brotli]
+httpx[zstd]
+httpx[socks]
 httpcore
 h11
 certifi
 charset-normalizer
 idna
 sniffio
+h2
+pyjnius
+plyer
