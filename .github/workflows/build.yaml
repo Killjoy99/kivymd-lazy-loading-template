@@ -105,7 +105,8 @@ jobs:
       - name: Build with Buildozer
         id: buildozer
         run: |
-          yes | buildozer -v android debug
+          yes | buildozer -v android clean
+        # yes | buildozer -v android debug
 
       # Upload artifacts
       - name: Upload APK artifact
