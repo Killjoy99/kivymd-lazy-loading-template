@@ -38,7 +38,7 @@ source.include_exts = py,png,jpg,kv,atlas,gif,json
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
-# version.filename = %(source.dir)s/__version__.py
+version.filename = %(source.dir)s/__version__.py
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
