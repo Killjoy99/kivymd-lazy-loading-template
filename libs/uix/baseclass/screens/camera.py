@@ -18,6 +18,7 @@ logging.basicConfig(
 class CameraScreen(MDScreen):
     # Property to hold the shared Username
     username = StringProperty()
+    camera_id = 0  # Default camera ID
 
     def on_enter(self):
         try:
@@ -96,3 +97,31 @@ class CameraScreen(MDScreen):
         except Exception as e:
             logging.error(f"Error taking picture: {e}")
             self.ids.label.text = "Failed to take picture."
+
+    def switch_camera(self):
+        try:
+            PythonActivity = autoclass("org.kivy.android.PythonActivity")
+            Camera = autoclass("android.hardware.Camera")
+            camera_info = autoclass("android.hardware.Camera$CameraInfo")
+
+            num_cameras = Camera.getNumberOfCameras()
+            if num_cameras <= 1:
+                logging.info("Only one camera available.")
+                return
+
+            camera_info_list = [camera_info() for _ in range(num_cameras)]
+            Camera.getCameraInfo(self.camera_id, camera_info_list[self.camera_id])
+
+            # Switch to the next camera
+            self.camera_id = (self.camera_id + 1) % num_cameras
+            logging.info(f"Switched to camera {self.camera_id}")
+
+            # Stop the current camera
+            self.ids.camera.play = False
+
+            # Set the new camera
+            self.ids.camera.camera_id = self.camera_id
+            self.ids.camera.play = True
+
+        except Exception as e:
+            logging.error(f"Error switching camera: {e}")

@@ -1,29 +1,24 @@
 <CameraScreen>
     md_bg_color: root.theme_cls.backgroundColor
 
-    MDBoxLayout:
-        orientation: 'vertical'
-        pos_hint: {"top": 1}
 
-        Camera:
-            id: camera
-            pos_hint: {"center_x": 0.5, "top": 1}
-            size_hint_y: 0.7
+    Camera:
+        id: camera
+        pos_hint: {"center_x": 0.5, "top": 1}
+        size_hint_y: 0.7
 
-        MDIconButton:
-            on_press: root.take_picture()
-            # size_hint_y: 0.15
-            icon: 'camera'
-            pos_hint: {"center_x": 0.5}
+    MDFabButton:
+        on_press: root.take_picture()
+        icon: 'camera'
+        pos_hint: {"center_x": 0.4, "bottom": .8}
 
-        MDIconButton:
-            on_press: root.manager.push("network")
-            # size_hint_y: 0.15
-            icon: 'cog'
-            pos_hint: {"center_x": 0.5}
+    MDFabButton:
+        on_press: root.switch_camera()
+        icon: 'camera-switch'
+        pos_hint: {"center_x": 0.6, "bottom": .8}
 
-        MDLabel:
-            id: label
-            text: ''
-            size_hint_y: 0.15
-            halign: 'center'
+    MDLabel:
+        id: label
+        text: ''
+        size_hint_y: 0.15
+        halign: 'center'
