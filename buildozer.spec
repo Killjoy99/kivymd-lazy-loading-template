@@ -53,25 +53,17 @@ requirements = python3,
     pillow,
     requests,
     httpcore,
-    httpx,
-    httpx[http2],
-    httpx[brotli],
-    httpx[zstd],
-    httpx[socks],
-    h11,
-    h2,
-    plyer,
     certifi,
+    charset-normalizer,
     idna,
-    sniffio,
-    charset-normalizer
+    sniffio
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
 
 # (str) Presplash of the application
-#presplash.filename = %(source.dir)s/data/presplash.png
+presplash.filename = %(source.dir)s/data/images/logo.png
 
 # (str) Icon of the application
 icon.filename = %(source.dir)s/data/images/logo.png
@@ -139,7 +131,7 @@ android.permissions = android.permission.INTERNET,
 #android.features = android.hardware.usb.host
 
 # (int) Target Android API, should be as high as possible.
-#android.api = 31
+android.api = 31
 
 # (int) Minimum API your APK / AAB will support.
 android.minapi = 24
@@ -148,7 +140,7 @@ android.minapi = 24
 #android.sdk = 20
 
 # (str) Android NDK version to use
-#android.ndk = 23b
+android.ndk = 25b
 
 # (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
 android.ndk_api = 24
@@ -244,7 +236,7 @@ android.ndk_api = 24
 # (bool) Enable AndroidX support. Enable when 'android.gradle_dependencies'
 # contains an 'androidx' package, or any package from Kotlin source.
 # android.enable_androidx requires android.api >= 28
-#android.enable_androidx = True
+android.enable_androidx = True
 
 # (list) add java compile options
 # this can for example be necessary when importing certain java libraries using the 'android.gradle_dependencies' option
