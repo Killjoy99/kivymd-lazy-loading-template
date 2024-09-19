@@ -83,11 +83,11 @@ jobs:
             automake
 
       # Set up Java 17 required by Gradle
-      - name: Setup Java 21 required by Gradle
+      - name: Setup Java 17 required by Gradle
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'  # or 'zulu', 'liberica', etc.
-          java-version: '21'
+          java-version: '17'
 
       # Set up Python
       - name: Set up Python
@@ -99,8 +99,8 @@ jobs:
       - name: Install pip dependencies
         run: |
           pip install --upgrade pip
-          pip install buildozer Cython==3.0.0a11
-        # pip install buildozer cython==0.29.33
+          pip install buildozer cython==0.29.33
+        # pip install buildozer Cython==3.0.0a11
 
       # Build with Buildozer
       - name: Build with Buildozer
