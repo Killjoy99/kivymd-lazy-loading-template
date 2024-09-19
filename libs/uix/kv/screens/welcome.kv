@@ -25,7 +25,8 @@
                     text: "Camera"
 
             MDButton:
-                on_release: app.theme_cls.theme_style = "Dark" if app.theme_cls.theme_style == "Light" else "Light"
+                on_release:
+                    app.theme_cls.theme_style = "Dark" if app.theme_cls.theme_style == "Light" else "Light"
                 radius: dp(0)
                 pos_hint: {"center_x": 0.5}
 

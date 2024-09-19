@@ -56,8 +56,7 @@ requirements = python3,
     certifi,
     charset-normalizer,
     idna,
-    sniffio,
-    aiofiles
+    sniffio
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

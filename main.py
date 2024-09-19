@@ -26,49 +26,29 @@ class MainApp(MDApp):
 
     def build(self):
         # Set window size only if running on non-Android platforms
-        if platform != "android":
-            Window.size = (420, 840)
 
-        # Request permissions if running on Android
         if platform == "android":
+            # Deactivate the loading screen
+            from android import loading_screen
+
+            loading_screen.hide_loading_screen()
+
+            # Request permissions if running on Android
             self.request_android_permissions()
+        else:
+            Window.size = (420, 840)
 
         # Initialize the root widget
         self.root = Root()
         self.root.push("welcome")
 
     def request_android_permissions(self):
-        if platform == "android":
-            try:
-                # Access the Android activity
-                PythonActivity = autoclass("org.kivy.android.PythonActivity")
-                ActivityCompat = autoclass("androidx.core.app.ActivityCompat")
-                ContextCompat = autoclass("androidx.core.app.ContextCompat")
+        from android.permissions import Permission, request_permissions
 
-                # Get the activity
-                activity = PythonActivity.mActivity
-
-                # Permissions to request
-                permissions = [
-                    "android.permission.CAMERA",
-                    "android.permission.INTERNET",
-                    "android.permission.WRITE_EXTERNAL_STORAGE",
-                    "android.permission.ACCESS_FINE_LOCATION",
-                    "android.permission.ACCESS_COARSE_LOCATION",
-                    "android.permission.READ_EXTERNAL_STORAGE",
-                    "android.permission.RECORD_AUDIO",
-                    "android.permission.VIBRATE",
-                    "android.permission.WAKE_LOCK",
-                ]
-
-                # Request permissions
-                for permission in permissions:
-                    if ContextCompat.checkSelfPermission(activity, permission) != 0:
-                        ActivityCompat.requestPermissions(activity, [permission], 0)
-                        logging.info(f"Requested permission: {permission}")
-
-            except Exception as e:
-                logging.error(f"Error requesting permissions: {e}")
+        try:
+            request_permissions([Permission.INTERNET])
+        except Exception as e:
+            logging.error(f"Failed to get permissions: {e}")
 
     def check_permissions(self):
         if platform == "android":
@@ -118,19 +98,6 @@ class MainApp(MDApp):
         logging.warning(message)
         # Guide the user to enable it in the settings
         # Alternatively, restrict access to the resource that needs the permissions
-
-    # def on_start(self):
-    #     self.profile = cProfile.Profile()
-    #     self.profile.enable()
-
-    # def on_stop(self):
-    def on_stop(self):
-        """Called when the app is stopping."""
-        self.executor.shutdown(wait=True)  # Wait for all tasks to complete
-        super().on_stop()
-
-    #     self.profile.disable()
-    #     self.profile.dump_stats("tests/myapp.profile")
 
 
 if __name__ == "__main__":

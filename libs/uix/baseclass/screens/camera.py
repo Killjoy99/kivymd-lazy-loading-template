@@ -3,6 +3,7 @@ import logging
 from datetime import datetime
 
 from jnius import autoclass
+from kivy import platform
 from kivy.clock import Clock
 from kivy.properties import StringProperty
 from kivymd.uix.screen import MDScreen
@@ -20,6 +21,20 @@ class CameraScreen(MDScreen):
     # Property to hold the shared Username
     username = StringProperty()
     camera_id = 0  # Default camera ID
+
+    def on_pre_enter(self):
+        if platform == "android":
+            # Try to request permission when we enter this screen
+            from android.permissions import Permission, request_permissions
+
+            request_permissions(
+                [
+                    Permission.CAMERA,
+                    Permission.READ_EXTERNAL_STORAGE,
+                    Permission.WRITE_EXTERNAL_STORAGE,
+                    Permission.RECORD_AUDIO,
+                ]
+            )
 
     def on_enter(self):
         try:
@@ -82,7 +97,18 @@ class CameraScreen(MDScreen):
             # Define the file path to save the photo
             file_date = datetime.now()
             file_name = f"{file_date.year}{file_date.month}{file_date.day}_{file_date.hour}{file_date.minute}{file_date.second}"
-            image_path = abs_path(f"data/captures/{file_name}.jpg")
+
+            # if on android, save image to external storage
+            if platform == "android":
+                from android.storage import (  # noqa: F401
+                    primary_external_storage_path,
+                    secondary_external_storage_path,
+                )
+
+                primary_ext_storage = primary_external_storage_path()
+                image_path = f"{primary_ext_storage}/{file_name}.jpg"
+            else:
+                image_path = abs_path(f"data/captures/{file_name}.jpg")
 
             # Capture the current frame from the camera feed
             camera.export_to_png(image_path)
