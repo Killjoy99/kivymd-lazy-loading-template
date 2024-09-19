@@ -6,8 +6,6 @@ from kivy.core.window import Window
 from kivy.utils import platform
 from kivymd.app import MDApp
 
-from libs.uix.android_permissions import check_and_request_permissions
-
 # Import the optimized Root class
 # from libs.uix.optimised_root import Root
 from libs.uix.root import Root
@@ -31,12 +29,13 @@ class MainApp(MDApp):
 
         if platform == "android":
             # Deactivate the loading screen
-            from android import loading_screen
+            pass
+            # from android import loading_screen
 
-            loading_screen.hide_loading_screen()
+            # loading_screen.hide_loading_screen()
 
-            # Request permissions if running on Android
-            check_and_request_permissions()
+            # # Request permissions if running on Android
+            # check_and_request_permissions()
         else:
             Window.size = (420, 840)
 

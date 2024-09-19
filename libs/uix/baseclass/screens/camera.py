@@ -10,10 +10,6 @@ from kivymd.uix.screen import MDScreen
 from PIL import Image
 
 from libs.applibs.utils import abs_path
-from libs.uix.android_permissions import (
-    check_and_request_permissions,
-    has_required_permissions,
-)
 from libs.uix.baseclass.components.permission_denied_popup import (
     show_permission_denied_popup,
 )
@@ -31,6 +27,10 @@ class CameraScreen(MDScreen):
 
     def on_pre_enter(self):
         if platform == "android":
+            from libs.uix.android_permissions import (
+                check_and_request_permissions,
+            )
+
             # Check permission and show popup if denied
             check_and_request_permissions(
                 on_permission_denied_callback=self.show_denied_popup()
@@ -48,11 +48,18 @@ class CameraScreen(MDScreen):
                 # Bind the shared_data to the update_username method
                 self.manager.bind(shared_data=self.update_username)
             # Play the camera
-            if has_required_permissions():
-                Clock.schedule_once(self.start_camera)
+            if platform == "android":
+                from libs.uix.android_permissions import (
+                    has_required_permissions,
+                )
+
+                if has_required_permissions():
+                    Clock.schedule_once(self.start_camera)
+                else:
+                    # Dnt start the camera
+                    logging.warning("Camera Permision Are required")
             else:
-                # Dnt start the camera
-                logging.warning("Camera Permision Are required")
+                Clock.schedule_once(self.start_camera)
 
         except Exception as e:
             logging.error(f"Error on entering screen: {e}")
