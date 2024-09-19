@@ -6,13 +6,13 @@
 [app]
 
 # (str) Title of your application
-title = eNtweniChat
+title = eNtweni
 
 # (str) Package name
-package.name = entwenichat
+package.name = entweni
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.entwenichat
+package.domain = org.entweni
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -49,10 +49,22 @@ requirements = python3,
     exceptiongroup,
     asyncgui,
     asynckivy,
-    httpx,
     plyer,
     pillow,
-    requests
+    requests,
+    httpcore,
+    httpx,
+    httpx[http2],
+    httpx[brotli],
+    httpx[zstd],
+    httpx[socks],
+    h11,
+    h2,
+    plyer,
+    certifi,
+    idna,
+    sniffio,
+    charset-normalizer
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
