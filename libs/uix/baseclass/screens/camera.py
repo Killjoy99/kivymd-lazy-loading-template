@@ -3,6 +3,7 @@ import logging
 from datetime import datetime
 
 from jnius import autoclass
+from kivy.clock import Clock
 from kivy.properties import StringProperty
 from kivymd.uix.screen import MDScreen
 from PIL import Image
@@ -27,12 +28,15 @@ class CameraScreen(MDScreen):
             if self.manager:
                 # Bind the shared_data to the update_username method
                 self.manager.bind(shared_data=self.update_username)
-
             # Play the camera
-            self.ids.camera.play = True
-            logging.info("Camera started.")
+            Clock.schedule_once(self.start_camera)
+
         except Exception as e:
             logging.error(f"Error on entering screen: {e}")
+
+    def start_camera(self, dt):
+        self.ids.camera.play = True
+        logging.info("Camera started.")
 
     def on_leave(self):
         try:

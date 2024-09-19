@@ -9,6 +9,8 @@ class NetworkScreen(MDScreen):
     response_text = ObjectProperty("")
 
     def on_enter(self):
+        # get some shared data
+        print(self.manager.get_shared_data("username"))
         # try to connect to google
         try:
             response = get_google(client)
