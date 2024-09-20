@@ -1,4 +1,3 @@
-import cProfile
 import importlib
 import json
 import logging
@@ -44,13 +43,13 @@ class Root(MDScreenManager):
             self.history.append((screen_name, side))
 
         # profile the screen loading logic
-        self.profile = cProfile.Profile()
-        self.profile.enable()
+        # self.profile = cProfile.Profile()
+        # self.profile.enable()
 
         self.load_screen(screen_name)
 
-        self.profile.disable()
-        self.profile.dump_stats("tests/loading_screen.profile")
+        # self.profile.disable()
+        # self.profile.dump_stats("tests/loading_screen.profile")
 
         if transition_type == "slide":
             self.transition.direction = side
