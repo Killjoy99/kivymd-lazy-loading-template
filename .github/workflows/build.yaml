@@ -99,8 +99,8 @@ jobs:
       - name: Install pip dependencies
         run: |
           pip install --upgrade pip
-          pip install buildozer cython==0.29.33
-        # pip install buildozer Cython==3.0.0a11
+          pip install buildozer Cython==3.0.11
+        # pip install buildozer cython==0.29.33
 
       # Build with Buildozer
       - name: Build with Buildozer
