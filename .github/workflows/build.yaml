@@ -34,6 +34,19 @@ jobs:
         with:
           path: .buildozer
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
+
+      # Cache gradle dependancies
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}
+
+
 
       # Install dependencies
       - name: Install dependencies
@@ -53,7 +66,6 @@ jobs:
             libavcodec-dev \
             libunwind-dev \
             zlib1g-dev
-          sudo apt-get install -y \
             libsqlite3-dev \
             sqlite3 \
             bzip2 \
@@ -67,8 +79,7 @@ jobs:
             uuid-dev \
             libgstreamer1.0 \
             gstreamer1.0-plugins-base \
-            gstreamer1.0-plugins-good
-          sudo apt-get install -y \
+            gstreamer1.0-plugins-good \
             zip \
             unzip \
             autoconf \
@@ -82,7 +93,7 @@ jobs:
             libssl-dev \
             automake
 
-      # Set up Java 17 required by Gradle
+      # Set up Java 21 required by Gradle
       - name: Setup Java 21 required by Gradle
         uses: actions/setup-java@v4
         with:
@@ -93,7 +104,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12' #set your python version
+          python-version: '3.11' #set your python version
 
       # Install pip dependencies
       - name: Install pip dependencies
