@@ -55,7 +55,13 @@ jobs:
             libtiff-dev \
             libavcodec-dev \
             libavformat-dev \
-            libswscale-dev
+            libswscale-dev \
+            libgstreamer1.0-dev \
+            libgstreamer-plugins-base1.0-dev \
+            libgstreamer1.0-plugins-good \
+            libgstreamer1.0-plugins-bad \
+            libgstreamer1.0-plugins-ugly \
+            libgstreamer1.0-plugins-tools
 
       # Set up Java 21 required by Gradle
       - name: Setup Java 21
