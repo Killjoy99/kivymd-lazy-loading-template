@@ -69,7 +69,7 @@ jobs:
       - name: Build with Buildozer
         id: buildozer
         run: |
-          yes | buildozer android clean
+          buildozer android clean
         # yes | buildozer -v android debug
 
       # Upload APK artifact
