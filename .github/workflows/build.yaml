@@ -78,7 +78,7 @@ jobs:
       - name: Install pip dependencies
         run: |
           pip install --upgrade pip
-          pip install --upgrade buildozer Cython==3.0.11
+          pip install --upgrade buildozer Cython
         # pip install buildozer cython==0.29.33
 
       # Build with Buildozer
@@ -94,13 +94,3 @@ jobs:
         with:
           name: package
           path: bin/*.apk
-
-      # Notify Slack on failure (Optional)
-      - name: Notify Slack on failure
-        if: failure()
-        uses: 8398a7/action-slack@v3
-        with:
-          status: failure
-          fields: repo,message,commit,author
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
