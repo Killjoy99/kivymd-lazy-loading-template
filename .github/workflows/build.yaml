@@ -15,40 +15,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Cache dependencies with a timeout
-      - name: Get Date
-        id: get-date
-        run: |
-          echo "date=$(date -u +%Y%m%d)" >> $GITHUB_OUTPUT
-
-      # Cache Buildozer global directory
-      - name: Cache Buildozer global directory
+      # Cache Buildozer and Python dependencies
+      - name: Cache dependencies
         uses: actions/cache@v4
         with:
-          path: .buildozer_global
-          key: buildozer-global-${{ hashFiles('buildozer.spec') }}
+          path: |
+            ~/.buildozer
+            ~/.cache/pip
+            ~/.gradle/caches
+          key: ${{ runner.os }}-${{ hashFiles('buildozer.spec') }}-cache
           restore-keys: |
-            buildozer-global-${{ hashFiles('buildozer.spec') }}
-
-      # Cache Buildozer local directory
-      - uses: actions/cache@v4
-        with:
-          path: .buildozer
-          key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
-
-      # Cache Gradle dependencies
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.gradle/caches
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            gradle-${{ runner.os }}
+            ${{ runner.os }}-cache
 
       # Install dependencies
-      - name: Install dependencies
+      - name: Install system dependencies
         run: |
           sudo apt update
           sudo apt-get install -y \
@@ -56,43 +36,17 @@ jobs:
             git \
             ffmpeg \
             libsdl2-dev \
-            libsdl2-image-dev \
-            libsdl2-mixer-dev \
-            libsdl2-ttf-dev \
-            libportmidi-dev \
-            libswscale-dev \
-            libavformat-dev \
-            libavcodec-dev \
-            libunwind-dev \
-            zlib1g-dev \
-            libsqlite3-dev \
-            sqlite3 \
-            bzip2 \
-            libbz2-dev \
-            openssl \
-            libgdbm-dev \
-            libgdbm-compat-dev \
-            liblzma-dev \
-            libreadline-dev \
-            uuid-dev \
-            libgstreamer1.0 \
-            gstreamer1.0-plugins-base \
-            gstreamer1.0-plugins-good \
             zip \
             unzip \
             autoconf \
-            libtool \
             pkg-config \
-            libncurses5-dev \
-            libncursesw5-dev \
-            libtinfo5 \
             cmake \
             libffi-dev \
             libssl-dev \
             automake
 
       # Set up Java 21 required by Gradle
-      - name: Setup Java 21 required by Gradle
+      - name: Setup Java 21
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -107,9 +61,9 @@ jobs:
       # Install pip dependencies
       - name: Install pip dependencies
         run: |
-          pip install --upgrade pip
+          pip install --upgrade --no-cache-dir pip
           pip install Cython==3.0.11
-          pip install --upgrade buildozer
+          pip install --upgrade --no-cache-dir buildozer
 
       # Build with Buildozer
       - name: Build with Buildozer
