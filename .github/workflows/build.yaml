@@ -1,4 +1,6 @@
-name: Entweni
+# Sample repository at https://github.com/Novfensec/SAMPLE-KIVYMD-APP
+
+name: CI
 
 on:
   push:
@@ -11,56 +13,76 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
-      # Get Current Date
+      # Used to cache dependencies with a timeout
       - name: Get Date
         id: get-date
         run: |
-          echo "date=$(date -u "+%Y%m%d")" >> $GITHUB_OUTPUT
+          echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
         shell: bash
 
-      # Cache Buildozer global directory
       - name: Cache Buildozer global directory
         uses: actions/cache@v4
         with:
           path: .buildozer_global
           key: buildozer-global-${{ hashFiles('buildozer.spec') }}
 
-      # Cache Buildozer directory
-      - name: Cache Buildozer directory
-        uses: actions/cache@v4
+      - uses: actions/cache@v4
         with:
           path: .buildozer
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
-
-      # Cache Gradle dependencies
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper/
-          key: gradle-${{ runner.os }}-${{ steps.get-date.outputs.date }}
-          restore-keys: |
-            gradle-${{ runner.os }}-
 
       # Install dependencies
       - name: Install dependencies
         run: |
           sudo apt update
           sudo apt-get install -y \
-            build-essential git ffmpeg libsdl2-dev libsdl2-image-dev \
-            libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev \
-            libavformat-dev libavcodec-dev libunwind-dev zlib1g-dev \
-            libsqlite3-dev sqlite3 bzip2 libbz2-dev openssl libgdbm-dev \
-            libgdbm-compat-dev liblzma-dev libreadline-dev uuid-dev \
-            libgstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
-            zip unzip autoconf libtool pkg-config libncurses5-dev \
-            libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev automake
+            build-essential \
+            git \
+            ffmpeg \
+            libsdl2-dev \
+            libsdl2-image-dev \
+            libsdl2-mixer-dev \
+            libsdl2-ttf-dev \
+            libportmidi-dev \
+            libswscale-dev \
+            libavformat-dev \
+            libavcodec-dev \
+            libunwind-dev \
+            zlib1g-dev
+          sudo apt-get install -y \
+            libsqlite3-dev \
+            sqlite3 \
+            bzip2 \
+            libbz2-dev \
+            zlib1g-dev \
+            openssl \
+            libgdbm-dev \
+            libgdbm-compat-dev \
+            liblzma-dev \
+            libreadline-dev \
+            uuid-dev \
+            libgstreamer1.0 \
+            gstreamer1.0-plugins-base \
+            gstreamer1.0-plugins-good
+          sudo apt-get install -y \
+            zip \
+            unzip \
+            autoconf \
+            libtool \
+            pkg-config \
+            libncurses5-dev \
+            libncursesw5-dev \
+            libtinfo5 \
+            cmake \
+            libffi-dev \
+            libssl-dev \
+            automake
 
-      # Set up Java 21 required by Gradle
+      # Set up Java 17 required by Gradle
       - name: Setup Java 21 required by Gradle
         uses: actions/setup-java@v4
         with:
@@ -78,16 +100,16 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install --upgrade buildozer Cython
-        # pip install buildozer cython==0.29.33
+        # pip install buildozer Cython==3.0.0a11
 
       # Build with Buildozer
       - name: Build with Buildozer
         id: buildozer
         run: |
-          yes | buildozer -v android debug | tee buildozer.log
+          yes | buildozer -v android debug
         # buildozer -v android clean
 
-      # Upload APK artifact
+      # Upload artifacts
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
