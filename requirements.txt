@@ -14,3 +14,7 @@ sniffio
 h2
 pyjnius
 plyer
+numpy
+pandas
+matplotlib
+kivy_garden.matplotlib
