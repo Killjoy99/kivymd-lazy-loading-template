@@ -56,7 +56,11 @@ requirements = python3,
     certifi,
     charset-normalizer,
     idna,
-    sniffio
+    sniffio,
+    pandas,
+    numpy,
+    matplotlib,
+    kivy_garden.matplotlib
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
