@@ -1,6 +1,6 @@
 # Sample repository at https://github.com/Novfensec/SAMPLE-KIVYMD-APP
 
-name: CI
+name: Entweni
 
 on:
   push:
@@ -99,8 +99,8 @@ jobs:
       - name: Install pip dependencies
         run: |
           pip install --upgrade pip
-          pip install --upgrade buildozer Cython
-        # pip install buildozer Cython==3.0.0a11
+          pip install Cython==3.0.11
+          pip install --upgrade buildozer
 
       # Build with Buildozer
       - name: Build with Buildozer
