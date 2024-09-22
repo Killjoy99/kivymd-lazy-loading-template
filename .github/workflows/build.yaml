@@ -82,7 +82,7 @@ jobs:
             libssl-dev \
             automake
 
-      # Set up Java 17 required by Gradle
+      # Set up Java 21 required by Gradle
       - name: Setup Java 21 required by Gradle
         uses: actions/setup-java@v4
         with:
