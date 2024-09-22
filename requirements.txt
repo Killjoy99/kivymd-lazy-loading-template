@@ -18,3 +18,4 @@ numpy
 pandas
 matplotlib
 kivy_garden.matplotlib
+mplfinance
