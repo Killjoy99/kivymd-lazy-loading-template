@@ -60,7 +60,8 @@ requirements = python3,
     pandas,
     numpy,
     matplotlib,
-    kivy_garden.matplotlib
+    kivy_garden.matplotlib,
+    mplfinance
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
