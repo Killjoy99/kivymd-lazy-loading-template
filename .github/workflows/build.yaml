@@ -81,8 +81,7 @@ jobs:
         id: buildozer
         run: |
           cd src
-          buildozer android clean
-        # yes | buildozer android debug
+          yes | buildozer android debug
 
       # Upload APK artifact
       - name: Upload APK artifact
