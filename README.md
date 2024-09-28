@@ -9,6 +9,10 @@ As a result, the startup time of your app can be significantly reduced and scree
 
 This template also features a **`screen navigation system`** that simplifies handling the back button.
 
+## `Requirements`
+`Kivy>=2.3.0"`
+`KivyMD==2.0.1.dev0`
+
 ## `Navigation`
 
 The [`Root`](https://github.com/kulothunganug/kivy-lazy-loading-template/blob/main/libs/uix/root.py) is based on [`screen`](https://kivy.org/doc/stable/api-kivy.uix.screen.html) and additionally provides a few navigation methods: `push(screen_name, side, transition_type)`, `push_replacement(screen_name, side, transition_type)` and `back()`.
@@ -32,7 +36,12 @@ To incorporate additional screens into your app, follow these steps:
 }
 ```
 
-This template already contains three screens as example which uses all the navigation methods.
+This template already contains three screens as example which uses all the crucial navigation methods.
+
+## `Special Back`
+
+The back method adds a two second delay to exit the application if there is no other screen to go back to.
+This simulates the double clicking back button to exit on Android
 
 ## Buildozer
 

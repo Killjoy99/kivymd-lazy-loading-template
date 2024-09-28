@@ -3,5 +3,15 @@
         "module": "libs.uix.screens.welcome",
         "class": "WelcomeScreen",
         "kv": "libs/uix/kv/screens/welcome.kv"
+    },
+    "home": {
+        "module": "libs.uix.screens.home",
+        "class": "HomeScreen",
+        "kv": "libs/uix/kv/screens/home.kv"
+    },
+    "settings": {
+        "module": "libs.uix.screens.settings",
+        "class": "SettingsScreen",
+        "kv": "libs/uix/kv/screens/settings.kv"
     }
 }

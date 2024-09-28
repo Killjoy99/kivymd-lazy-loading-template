@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 
 class WelcomeScreen(MDScreen):
-    username = StringProperty("Change Me")  # Kivy's StringProperty handles the type
     status = StringProperty("")
 
     def on_enter(self):
@@ -17,21 +16,15 @@ class WelcomeScreen(MDScreen):
         Clock.schedule_once(self.preload_next)
 
     def preload_next(self, dt) -> None:
-        """Preload the next screens for faster navigation.
-
-        Args:
-            dt (float): Time delay (passed by Clock). Not used directly.
-        """
-        self.manager.preload_screens(
-            ["hello_screen", "settings_screen", "profile_screen"]
-        )
+        """Preload the home Screen"""
+        self.manager.preload_screens(["settings"])
         self.status = "Screens preloaded successfully"
 
-    def change_name(self, new_name: str) -> None:
+    def login(self, new_name: str) -> None:
         """Change the user's name and store it in shared data."""
         logger.info(f"Changing name to: {new_name}")
-        self.username = new_name  # This updates the UI dynamically
         self.manager.set_shared_data("username", new_name)
+        self.manager.push_replacement("home")
 
     def on_leave(self):
         """Called when leaving the screen. Removes this screen from cache."""

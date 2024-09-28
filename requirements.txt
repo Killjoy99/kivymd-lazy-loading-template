@@ -1,4 +1,4 @@
-kivy
+kivy>=2.3.0
 cython
 httpx
 kivymd==2.0.0

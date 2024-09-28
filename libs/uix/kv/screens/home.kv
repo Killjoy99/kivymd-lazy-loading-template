@@ -1,0 +1,30 @@
+<HomeScreen>
+    md_bg_color: app.theme_cls.backgroundColor
+
+    MDLabel:
+        markup: True
+        text: "[size=30sp][b][color=#008080]Home Screen[/color][/b][/size]"
+        halign: 'center'
+        valign: 'middle'
+        pos_hint: {'center_x': 0.5,'center_y': 0.8}
+
+    MDLabel:
+        markup: True
+        text: f"Welcome:    [b][color=#00f080]{root.username}[/color][/b]"
+        halign: 'center'
+        valign: 'middle'
+        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+
+    MDButton:
+        on_release: root.manager.push("settings")
+        radius: dp(0)
+        pos_hint: {'center_x': 0.7,'center_y': 0.1}
+        MDButtonText:
+            text: 'To Settings'
+
+    MDButton:
+        on_release: root.manager.push_replacement("welcome")
+        radius: dp(0)
+        pos_hint: {'center_x': 0.3,'center_y': 0.1}
+        MDButtonText:
+            text: 'Logout'

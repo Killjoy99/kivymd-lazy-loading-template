@@ -2,23 +2,35 @@
     name: "welcome"
     md_bg_color: app.theme_cls.backgroundColor
 
-    MDBoxLayout:
-        MDLabel:
-            id: label
-            text: root.status
+    MDLabel:
+        markup: True
+        text: "[size=30sp][b][color=#008080]Welcome Screen[/color][/b][/size]"
+        halign: 'center'
+        pos_hint: {'center_x': 0.5,'center_y': 0.8}
 
-        MDLabel:
-            id: label2
-            text: f"Welcome: {root.username}"
+    MDLabel:
+        id: label
+        text: root.status
+        halign: 'center'
+        pos_hint: {'center_x': 0.5,'center_y': 0.7}
 
     MDBoxLayout:
         orientation: 'horizontal'
+        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+
+        MDLabel:
+            id: label
+            text: "Username:"
+
         MDTextField:
             id: name_field
             radius: dp(0)
+            pos_hint: {'center_x': 0.5,'center_y': 0.5}
 
-        MDButton:
-            on_release: root.change_name(name_field.text)
-            radius: dp(0)
-            MDButtonText:
-                text: "Change Username"
+    MDButton:
+        id: login_button
+        on_release: root.login(name_field.text)
+        radius: dp(0)
+        pos_hint: {'center_x': 0.5,'center_y': 0.1}
+        MDButtonText:
+            text: "Login"

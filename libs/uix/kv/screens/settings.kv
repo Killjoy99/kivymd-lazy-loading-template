@@ -1,0 +1,24 @@
+<SettingsScreen>
+    md_bg_color: app.theme_cls.backgroundColor
+
+    MDLabel:
+        markup: True
+        text: "[size=30sp][b][color=#008080]Settings Screen[/color][/b][/size]"
+        halign: 'center'
+        pos_hint: {'center_x': 0.5,'center_y': 0.8}
+
+    MDButton:
+        on_release:
+            root.manager.set_shared_data("username", "Username Changed")
+            root.manager.push_replacement("home")
+        radius: dp(0)
+        pos_hint: {'center_x': 0.7,'center_y': 0.1}
+        MDButtonText:
+            text: 'Change Username'
+
+    MDButton:
+        on_release: root.manager.back()
+        radius: dp(0)
+        pos_hint: {'center_x': 0.3,'center_y': 0.1}
+        MDButtonText:
+            text: 'To Home'
