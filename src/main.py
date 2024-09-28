@@ -5,8 +5,6 @@ from kivy.core.window import Window
 from kivy.utils import platform
 from kivymd.app import MDApp
 
-# Import the optimized Root class
-# from libs.uix.optimised_root import Root
 from libs.uix.root import Root
 
 logging.basicConfig(level=logging.INFO)
@@ -23,11 +21,9 @@ class EntweniLazyTemplate(MDApp):
 
     def build(self):
         # Set window size only if running on non-Android platforms
-
         if platform != "android":
             Window.size = (420, 840)
 
-        # Register the services for later referencing from all screens
         # Initialize the root widget
         self.root = Root()
         self.root.push("welcome")

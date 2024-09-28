@@ -10,6 +10,7 @@ As a result, the startup time of your app can be significantly reduced and scree
 This template also features a **`screen navigation system`** that simplifies handling the back button.
 
 ## `Requirements`
+
 `Kivy>=2.3.0"`
 `KivyMD==2.0.1.dev0`
 
