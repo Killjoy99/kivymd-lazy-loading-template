@@ -38,7 +38,7 @@ To incorporate additional screens into your app, follow these steps:
 
 This template already contains three screens as example which uses all the crucial navigation methods.
 
-## `Special Back`
+## `Special Back Functionality`
 
 The back method adds a two second delay to exit the application if there is no other screen to go back to.
 This simulates the double clicking back button to exit on Android
