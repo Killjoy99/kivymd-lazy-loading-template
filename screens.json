@@ -13,10 +13,5 @@
         "module": "libs.uix.baseclass.screens.network",
         "class": "NetworkScreen",
         "kv": "libs/uix/kv/screens/network.kv"
-    },
-    "graphs": {
-        "module": "libs.uix.baseclass.screens.graphs",
-        "class": "GraphScreen",
-        "kv": "libs/uix/kv/screens/graphs.kv"
     }
 }

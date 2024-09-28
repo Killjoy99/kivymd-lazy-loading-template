@@ -1,0 +1,7 @@
+{
+    "welcome": {
+        "module": "libs.uix.screens.welcome",
+        "class": "WelcomeScreen",
+        "kv": "libs/uix/kv/screens/welcome.kv"
+    }
+}

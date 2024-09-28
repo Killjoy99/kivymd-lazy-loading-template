@@ -1,0 +1,16 @@
+[project]
+name = "eNtweni-Booking"
+authors = [{name = "Philani Dlamini", email = "dlamini.philani@outlook.com"}]
+version = "0.0.1"
+requires-python = ">=3.11"
+dependencies = [
+    "requests", "kivy>=2.3.0", "kivymd>=2.0.0", "httpx", "PyJWT"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest", "setuptools", "Cython>=3.0.0", "build"
+]
+
+[build-system]
+requires = ["setuptools", "Cython>=3.0.0"]

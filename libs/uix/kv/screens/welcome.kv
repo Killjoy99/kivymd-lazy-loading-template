@@ -1,61 +1,24 @@
 <WelcomeScreen>
-    md_bg_color: root.theme_cls.backgroundColor
+    name: "welcome"
+    md_bg_color: app.theme_cls.backgroundColor
 
     MDBoxLayout:
-        orientation: "vertical"
-        padding: [dp(0), dp(0), dp(0), dp(40)]
-        pos_hint: {"center_x": 0.5}
+        MDLabel:
+            id: label
+            text: root.status
 
         MDLabel:
-            text: "Current Screen: " + root.name
-            pos_hint: {"center_x": 0.5}
+            id: label2
+            text: f"Welcome: {root.username}"
 
-        MDBoxLayout:
-            orientation: 'horizontal'
-            adaptive_height: True
-            spacing: dp(50)
-            pos_hint: {"center_x": 0.5}
+    MDBoxLayout:
+        orientation: 'horizontal'
+        MDTextField:
+            id: name_field
+            radius: dp(0)
 
-            MDButton:
-                on_release: root.login()
-                radius: dp(0)
-                pos_hint: {"center_x": 0.5}
-
-                MDButtonText:
-                    text: "Camera"
-
-            MDButton:
-                on_release:
-                    app.theme_cls.theme_style = "Dark" if app.theme_cls.theme_style == "Light" else "Light"
-                radius: dp(0)
-                pos_hint: {"center_x": 0.5}
-
-                MDButtonText:
-                    text: "Change Theme"
-
-
-        MDBoxLayout:
-            orientation: 'horizontal'
-            adaptive_height: True
-            spacing: dp(50)
-            MDButton:
-                on_release: root.manager.push("network")
-                radius: dp(0)
-                pos_hint: {"center_x": 0.5}
-
-                MDButtonText:
-                    text: "Test Network"
-
-                MDButtonIcon:
-                    icon: "cog"
-
-            MDButton:
-                on_release: root.manager.push("graphs")
-                radius: dp(0)
-                pos_hint: {"center_x": 0.5}
-
-                MDButtonText:
-                    text: "Show Graphs"
-
-                MDButtonIcon:
-                    icon: "graph"
+        MDButton:
+            on_release: root.change_name(name_field.text)
+            radius: dp(0)
+            MDButtonText:
+                text: "Change Username"
