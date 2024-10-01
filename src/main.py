@@ -24,7 +24,6 @@ class EntweniLazyTemplate(MDApp):
             Window.size = (420, 840)
 
         self.root = Root()  # NOTE: Do not change this to self.anything_else
-
         self.root.push("welcome")
 
     def on_start(self):
