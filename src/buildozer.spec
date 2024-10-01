@@ -48,7 +48,8 @@ requirements = python3,
     materialyoucolor,
     exceptiongroup,
     asyncgui,
-    asynckivy
+    asynckivy,
+    pyjnius
 # plyer,
 # pillow,
 # requests,
@@ -125,12 +126,12 @@ fullscreen = 0
 android.permissions = android.permission.INTERNET,
     android.permission.WRITE_EXTERNAL_STORAGE,
     android.permission.READ_EXTERNAL_STORAGE,
-# android.permission.ACCESS_FINE_LOCATION,
-# android.permission.ACCESS_COARSE_LOCATION,
-# android.permission.CAMERA,
-# android.permission.RECORD_AUDIO,
-# android.permission.VIBRATE,
-# android.permission.WAKE_LOCK
+    android.permission.ACCESS_FINE_LOCATION,
+    android.permission.ACCESS_COARSE_LOCATION,
+    android.permission.CAMERA,
+    android.permission.RECORD_AUDIO,
+    android.permission.VIBRATE,
+    android.permission.WAKE_LOCK
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
