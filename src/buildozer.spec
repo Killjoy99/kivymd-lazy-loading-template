@@ -34,7 +34,7 @@ source.include_exts = py,png,jpg,kv,atlas,gif,json
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.0.1
+version = 0.0.2
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -237,7 +237,7 @@ android.ndk_api = 24
 #android.add_resources =
 
 # (list) Gradle dependencies to add
-#android.gradle_dependencies =
+android.gradle_dependencies = "androidx.core:core:1.6.0" "androidx.appcompat:appcompat:1.3.1"
 
 # (bool) Enable AndroidX support. Enable when 'android.gradle_dependencies'
 # contains an 'androidx' package, or any package from Kotlin source.
