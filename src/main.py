@@ -4,7 +4,6 @@ import logging
 from kivy.core.window import Window
 from kivy.utils import platform
 from kivymd.app import MDApp
-
 from libs.uix.root import Root
 
 logging.basicConfig(level=logging.INFO)
@@ -24,9 +23,13 @@ class EntweniLazyTemplate(MDApp):
         if platform != "android":
             Window.size = (420, 840)
 
-        # Initialize the root widget
-        self.root = Root()
+        self.root = Root()  # NOTE: Do not change this to self.anything_else
+
         self.root.push("welcome")
+
+    def on_start(self):
+        # preload the welcome screen on app startup
+        self.root.preload_screens(["welcome"])
 
 
 if __name__ == "__main__":
