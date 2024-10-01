@@ -1,8 +1,8 @@
 # Kivy - KivyMD Lazy Loading Template
 
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)
-![License](https://img.shields.io/github/license/Killjoy99/kivy-lazy-loading-template.svg)
-![Build Status](https://github.com/Killjoy99/kivy-lazy-loading-template/actions/workflows/build.yaml/badge.svg?branch=build-android-app)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Build Status](https://img.shields.io/github/workflow/status/Killjoy99/kivy-lazy-loading-template/Build%20APK?label=build%20status&style=flat-square)
 
 Supercharge the performance of your Kivy - KivyMD app 🚀 with lazy loading.
 
@@ -191,7 +191,5 @@ Use this with the producer consumer taking into effect the fps of the device and
 Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository.
 
 ## 📄 `License`
-
-![License](docs/license-badge.svg)
 
 Licensed under the MIT License. See the [LICENSE](./LICENSE) file for more information.
