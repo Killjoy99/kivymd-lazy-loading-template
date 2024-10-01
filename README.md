@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Build Status](https://img.shields.io/github/actions/workflow/status/Killjoy99/kivy-lazy-loading-template/.github/workflows/build.yaml?branch=build-android-app)
+![Build Status](https://github.com/Killjoy99/kivymd-lazy-loading-template/actions/workflows/build.yaml/badge.svg)
 
 Supercharge the performance of your Kivy - KivyMD app 🚀 with lazy loading.
 
