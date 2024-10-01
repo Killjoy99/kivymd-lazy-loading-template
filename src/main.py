@@ -24,11 +24,17 @@ class EntweniLazyTemplate(MDApp):
             Window.size = (420, 840)
 
         self.root = Root()  # NOTE: Do not change this to self.anything_else
-        self.root.push("welcome")
-
-    def on_start(self):
         # preload the welcome screen on app startup
         self.root.preload_screens(["welcome"])
+
+    def on_start(self):
+        if platform == "android":
+            from my_android.permissions import request_permissions
+
+            # Ensure the UI is drawn before requesting permissions
+            Window.bind(on_draw=lambda *args: request_permissions())
+
+        self.root.push("welcome")
 
 
 if __name__ == "__main__":
