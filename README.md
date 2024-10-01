@@ -140,7 +140,7 @@ class WelcomeScreen(MDScreen):
 Clone this template repository to your local machine.
 
 ```bash
-git clone https://github.com/kulothunganug/kivy-lazy-loading-template.git
+git clone https://github.com/Killjoy99/kivymd-lazy-loading-template.git
 cd kivy-lazy-loading-template
 ```
 
@@ -181,6 +181,10 @@ Choose appropriate transition types and directions to make screen switches feel 
 ### Manage Screen History Efficiently
 
 Keep track of screen navigation history to provide intuitive back navigation without consuming excessive memory.
+
+### Producer / Consumer
+
+Use this with the producer consumer taking into effect the fps of the device and adjusting the consumption of items based on that to avoid overloading devices with lower memory while taking advantage of the devices with larger memory.
 
 ## 🛠️ `Contributing`
 
