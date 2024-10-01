@@ -45,7 +45,7 @@ This template already contains three screens as example which uses all the cruci
 
 ## 🔙 `Special Back Functionality`
 
-The back method in this template adds a two-second delay before exiting the application if there are no other screens to navigate back to. This simulates the double-click behavior commonly found on Android devices for exiting apps, enhancing the user experience by preventing accidental exits.
+The back method in this template adds a two-second delay before exiting the application if there are no other screens to navigate back to and the back button has been pressed twice (`Non android uses escape`). This simulates the double-click behavior commonly found on Android devices for exiting apps, enhancing the user experience by preventing accidental exits.
 
 ## 📸 `Screenshots`
 
