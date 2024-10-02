@@ -28,3 +28,10 @@
         pos_hint: {'center_x': 0.3,'center_y': 0.1}
         MDButtonText:
             text: 'Logout'
+
+    MDButton:
+        on_release: root.manager.push("calling")
+        radius: dp(0)
+        pos_hint: {'center_x': 0.5,'center_y': 0.2}
+        MDButtonText:
+            text: 'Make Phone Call'

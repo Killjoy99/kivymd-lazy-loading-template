@@ -13,5 +13,10 @@
         "module": "libs.uix.screens.settings",
         "class": "SettingsScreen",
         "kv": "libs/uix/kv/screens/settings.kv"
+    },
+    "calling": {
+        "module": "libs.uix.screens.calling",
+        "class": "CallingScreen",
+        "kv": "libs/uix/kv/screens/calling.kv"
     }
 }

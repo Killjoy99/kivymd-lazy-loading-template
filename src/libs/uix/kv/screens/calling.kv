@@ -1,0 +1,29 @@
+<CallingScreen>
+    name: "welcome"
+    md_bg_color: app.theme_cls.backgroundColor
+
+    MDLabel:
+        markup: True
+        text: "[size=30sp][b][color=#008080]Calling Screen[/color][/b][/size]"
+        halign: 'center'
+        pos_hint: {'center_x': 0.5,'center_y': 0.8}
+
+    MDBoxLayout:
+        orientation: 'horizontal'
+        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+
+        MDLabel:
+            id: label
+            text: "Phone Number:"
+
+        MDTextField:
+            id: phone_field
+            radius: dp(0)
+            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+
+    MDButton:
+        on_release: root.make_call(phone_field.text)
+        radius: dp(0)
+        pos_hint: {'center_x': 0.5,'center_y': 0.1}
+        MDButtonText:
+            text: "Call"
