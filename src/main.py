@@ -29,10 +29,10 @@ class EntweniLazyTemplate(MDApp):
 
     def on_start(self):
         if platform == "android":
-            from my_android.permissions import request_permissions
+            from my_android.permissions import request_camera_permission
 
             # Ensure the UI is drawn before requesting permissions
-            Window.bind(on_draw=lambda *args: request_permissions())
+            Window.bind(on_draw=lambda *args: request_camera_permission())
 
         self.root.push("welcome")
 
