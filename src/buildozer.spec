@@ -12,7 +12,7 @@ title = eNtweniLazyTemplate
 package.name = entwenilazytemplate
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.entwenilazytemplate
+package.domain = org.entweni.lazytemplate
 
 # (str) Source code where the main.py live
 source.dir = .
