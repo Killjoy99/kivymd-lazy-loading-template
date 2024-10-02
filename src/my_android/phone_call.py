@@ -1,5 +1,5 @@
 from jnius import autoclass, cast
-from my_android.permissions import request_phone_permission, PythonActivity, Manifest, PackageManager, Intent, Uri
+from my_android.permissions import request_phone_permission, PythonActivity, Intent, Uri
 
 
 # Method to make a phone call

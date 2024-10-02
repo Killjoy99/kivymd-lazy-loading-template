@@ -6,6 +6,9 @@ PythonActivity = autoclass("org.kivy.android.PythonActivity")
 PackageManager = autoclass("android.content.pm.PackageManager")
 Manifest = autoclass("android.Manifest")
 
+Intent = autoclass("android.content.Intent")
+Uri = autoclass("android.net.Uri")
+
 # Handle the permission result callback
 def onRequestPermissionResult(request_code, permissions, grant_results):
     if grant_results and grant_results[0] == PackageManager.PERMISSION_GRANTED:
