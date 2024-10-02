@@ -1,9 +1,17 @@
-from my_android.permissions import request_phone_permission, PythonActivity, Intent, Uri
-import logging
+# my_android/phone_call.py
+from jnius import autoclass
+from my_android.permissions import (
+    Intent,
+    Uri,
+    current_activity,
+)
 
-# Method to make a phone call
-def initiate_phone_call(phone_number: str):
-    current_activity = PythonActivity.mActivity
+PythonActivity = autoclass("org.kivy.android.PythonActivity")
+
+
+def initiate_phone_call(phone_number):
     intent = Intent(Intent.ACTION_CALL)
-    intent.setData(Uri.parse(f"tel:{phone_number}"))
+    uri = Uri.parse(f"tel:{phone_number}")
+    intent.setData(uri)
+
     current_activity.startActivity(intent)

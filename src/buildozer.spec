@@ -34,7 +34,7 @@ source.include_exts = py,png,jpg,kv,atlas,gif,json
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.0.2
+version = 0.0.3
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -131,13 +131,7 @@ android.permissions = android.permission.INTERNET,
     android.permission.CAMERA,
     android.permission.RECORD_AUDIO,
     android.permission.VIBRATE,
-    android.permission.WAKE_LOCK,
-    android.permission.CALL_PHONE,
-    android.permission.ANSWER_PHONE_CALLS,
-    android.permission.READ_PHONE_STATE,
-    android.permission.ACCESS_WIFI_STATE,
-    android.permission.USE_BIOMETRIC,
-    android.permission.VIBRATE
+    android.permission.WAKE_LOCK
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
@@ -146,13 +140,13 @@ android.permissions = android.permission.INTERNET,
 android.api = 31
 
 # (int) Minimum API your APK / AAB will support.
-android.minapi = 24
+android.minapi = 19
 
 # (int) Android SDK version to use
 #android.sdk = 20
 
 # (str) Android NDK version to use
-android.ndk = 25b
+android.ndk = 23b
 
 # (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
 android.ndk_api = 24
@@ -243,7 +237,9 @@ android.ndk_api = 24
 #android.add_resources =
 
 # (list) Gradle dependencies to add
-#android.gradle_dependencies =
+android.gradle_dependencies = 'com.android.support:support-v4:28.0.0',
+    'androidx.core:core-ktx:1.6.0'
+    'androidx.appcompat:appcompat:1.3.1'
 
 # (bool) Enable AndroidX support. Enable when 'android.gradle_dependencies'
 # contains an 'androidx' package, or any package from Kotlin source.
@@ -259,6 +255,7 @@ android.enable_androidx = True
 # please enclose in double quotes 
 # e.g. android.gradle_repositories = "maven { url 'https://repo.spring.io/release' }"
 #android.add_gradle_repositories =
+android.add_gradle_repositories = "maven { url 'https://maven.google.com' }"
 
 # (list) packaging options to add
 # see https://developer.android.com/reference/tools/gradle-api/7.1/com/android/build/api/dsl/PackagingOptions
