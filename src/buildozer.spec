@@ -9,10 +9,10 @@
 title = eNtweniLazyTemplate
 
 # (str) Package name
-package.name = entwenilazytemplate
+package.name = lazytemplate
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.entweni.lazytemplate
+package.domain = org.entweni
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -50,19 +50,6 @@ requirements = python3,
     asyncgui,
     asynckivy,
     pyjnius
-# plyer,
-# pillow,
-# requests,
-# httpcore,
-# certifi,
-# charset-normalizer,
-# idna,
-# sniffio
-# pandas,
-# numpy,
-# matplotlib,
-# kivy_garden.matplotlib,
-# mplfinance
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -255,7 +242,7 @@ android.enable_androidx = True
 # please enclose in double quotes 
 # e.g. android.gradle_repositories = "maven { url 'https://repo.spring.io/release' }"
 #android.add_gradle_repositories =
-android.add_gradle_repositories = "maven { url 'https://maven.google.com' }"
+# android.gradle_repositories = "maven { url 'https://repo.spring.io/release' }"
 
 # (list) packaging options to add
 # see https://developer.android.com/reference/tools/gradle-api/7.1/com/android/build/api/dsl/PackagingOptions
