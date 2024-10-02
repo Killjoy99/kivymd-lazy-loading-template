@@ -3,6 +3,7 @@
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Build Status](https://github.com/Killjoy99/kivymd-lazy-loading-template/actions/workflows/build.yaml/badge.svg)
+![Tests](https://github.com/Killjoy99/kivymd-lazy-loading-template/actions/workflows/tests.yml/badge.svg)
 
 Supercharge the performance of your Kivy - KivyMD app 🚀 with lazy loading.
 
@@ -67,6 +68,10 @@ source.include_exts = py,png,jpg,kv,atlas,gif,json
 ```
 
 This ensures that all necessary file types, including JSON, are packaged with your app, preventing potential runtime errors related to missing resources.
+
+## 🧪 `Testing`
+
+The tests for this application are handled using `pytest`. The status of the tests is shown above:
 
 ## 🛠️ `Implementation Example`
 
