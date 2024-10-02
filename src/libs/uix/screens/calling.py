@@ -15,9 +15,21 @@ class CallingScreen(MDScreen):
         # Potentially check for permissions
         pass
 
-    def make_call(self, phone_number):
+    def make_phone_call(self, phone_number):
         if platform == "android":
-            from my_android.phone_call import make_phone_call
+            from my_android.phone_call import initiate_phone_call
+            from my_android.permissions import request_phone_permission, PackageManager
 
-            make_phone_call(phone_number=phone_number)
+            if request_phone_permission():
+                initiate_phone_call(phone_number=phone_number)
+            else:
+                logging.info("Requesting phone call permissions")
+                # Register a callback to re-attempt the call if permissions are granted
+                def permission_callback(request_code, permissions, grant_results):
+                    if grant_results and grant_results[0] == PackageManager.PERMISSION_GRANTED:
+                        initiate_phone_call(phone_number=phone_number)
+                    else:
+                        logging.error("Phone call Permissions Denied")
+
+                onRequestPermissionResult = permission_callback
 
