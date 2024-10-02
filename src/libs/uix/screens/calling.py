@@ -33,3 +33,5 @@ class CallingScreen(MDScreen):
 
                 onRequestPermissionResult = permission_callback
 
+        else:
+            logger.info(phone_number)

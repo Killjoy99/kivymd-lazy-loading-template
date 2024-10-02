@@ -1,4 +1,4 @@
-from jnius import autoclass
+from jnius import autoclass, java_method, PythonJavaClass
 import logging
 
 # App specific classes
@@ -11,11 +11,18 @@ Intent = autoclass("android.content.Intent")
 Uri = autoclass("android.net.Uri")
 
 # Handle the permission result callback
-def onRequestPermissionResult(request_code, permissions, grant_results):
-    if grant_results and grant_results[0] == PackageManager.PERMISSION_GRANTED:
-        logging.info("Permission granted")
-    else:
-        logging.error("Permission denied")
+class PermissionCallback(PythonJavaClass):
+    __javainterfaces__ = ['android/app/Activity$OnRequestPermissionsResultCallback']
+    __javacontext__ = 'app'
+
+    @java_method('(I[Ljava/lang/String;[I)V')
+    def onRequestPermissionsResult(self, request_code, permissions, grant_results):
+        if grant_results and grant_results[0] == PackageManager.PERMISSION_GRANTED:
+            logging.info("Permission granted")
+        else:
+            logging.error("Permission denied")
+
+permission_callback = PermissionCallback()
 
 # Helper function to check and request permissions
 def check_and_request_permissions(permissions: list) -> bool:
