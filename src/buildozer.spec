@@ -225,7 +225,7 @@ android.ndk_api = 24
 
 # (list) Gradle dependencies to add
 # android.gradle_dependencies = 'androidx.appcompat:appcompat:1.6.1, androidx.core:core:1.12.0'
-# android.gradle_dependencies = 'androidx.appcompat:appcompat:1.6.1'
+android.gradle_dependencies = androidx.appcompat:appcompat:1.6.1
 
 # (bool) Enable AndroidX support. Enable when 'android.gradle_dependencies'
 # contains an 'androidx' package, or any package from Kotlin source.
