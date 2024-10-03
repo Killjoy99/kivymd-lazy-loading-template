@@ -225,7 +225,7 @@ android.ndk_api = 24
 
 # (list) Gradle dependencies to add
 # android.gradle_dependencies = 'androidx.appcompat:appcompat:1.6.1, androidx.core:core:1.12.0'
-android.gradle_dependencies = 'androidx.appcompat:appcompat:1.6.1'
+# android.gradle_dependencies = 'androidx.appcompat:appcompat:1.6.1'
 
 # (bool) Enable AndroidX support. Enable when 'android.gradle_dependencies'
 # contains an 'androidx' package, or any package from Kotlin source.
@@ -241,7 +241,7 @@ android.enable_androidx = True
 # please enclose in double quotes 
 # e.g. android.gradle_repositories = "maven { url 'https://repo.spring.io/release' }"
 #android.add_gradle_repositories =
-# android.gradle_repositories = "maven { url 'https://repo.spring.io/release' }"
+android.gradle_repositories = "maven { url 'https://repo.spring.io/release' }", "maven { url 'https://jitpack.io' }"
 
 # (list) packaging options to add
 # see https://developer.android.com/reference/tools/gradle-api/7.1/com/android/build/api/dsl/PackagingOptions
