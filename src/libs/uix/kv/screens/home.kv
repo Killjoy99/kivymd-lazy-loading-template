@@ -15,6 +15,13 @@
         valign: 'middle'
         pos_hint: {'center_x': 0.5,'center_y': 0.5}
 
+    MDCard:
+        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+        size_hint: (None, None)
+        width: dp(200)
+        height: dp(100)
+        radius: dp(-10), dp(0), dp(0), dp(0)
+
     MDButton:
         on_release: root.manager.push("settings")
         radius: dp(0)
