@@ -51,11 +51,9 @@ jobs:
           cd src
           buildozer android clean
           yes | buildozer -v android debug
-          buildozer android clean
-        # yes | buildozer -v android debug
 
-      # - name: Upload APK artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: package
-      #     path: src/bin/*.apk
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: package
+          path: src/bin/*.apk
