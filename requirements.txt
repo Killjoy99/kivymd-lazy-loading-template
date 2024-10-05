@@ -1,5 +1,4 @@
 kivy
-cython
-httpx
 https://github.com/kivymd/KivyMD/archive/master.zip
-pytest
+httpx
+pyjnius
