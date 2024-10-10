@@ -15,12 +15,6 @@
         valign: 'middle'
         pos_hint: {'center_x': 0.5,'center_y': 0.5}
 
-    MDCard:
-        pos_hint: {'center_x': 0.5,'center_y': 0.5}
-        size_hint: (None, None)
-        width: dp(200)
-        height: dp(100)
-        radius: dp(-10), dp(0), dp(0), dp(0)
 
     MDButton:
         on_release: root.manager.push("settings")
@@ -39,6 +33,13 @@
     MDButton:
         on_release: root.manager.push("calling")
         radius: dp(0)
-        pos_hint: {'center_x': 0.5,'center_y': 0.2}
+        pos_hint: {'center_x': 0.3,'center_y': 0.2}
         MDButtonText:
             text: 'Make Phone Call'
+
+    MDButton:
+        on_release: root.manager.push("messaging")
+        radius: dp(0)
+        pos_hint: {'center_x': 0.7,'center_y': 0.2}
+        MDButtonText:
+            text: 'Messages'

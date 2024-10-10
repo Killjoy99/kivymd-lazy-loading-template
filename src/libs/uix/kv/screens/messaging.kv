@@ -1,0 +1,14 @@
+<MessagingScreen>
+    md_bg_color: app.theme_cls.backgroundColor
+
+    MDLabel:
+        markup: True
+        text: "[size=30sp][b][color=#008080]Messaging Screen[/color][/b][/size]"
+        halign: 'center'
+        pos_hint: {'center_x': 0.5, 'top': 1}
+
+    MDBoxLayout:
+        id: sms_recycle_view
+        orientation: 'vertical'
+        padding: dp(10)
+        pos_hint: {'center_x': 0.5,'top': 0.9}

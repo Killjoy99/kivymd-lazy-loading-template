@@ -19,15 +19,12 @@ class EntweniLazyTemplate(MDApp):
         self.theme_cls.primary_palette = "Teal"
 
     def build(self):
-        # Set window size only if running on non-Android platforms
         if platform != "android":
             Window.size = (420, 840)
 
-        self.root = Root()  # NOTE: Do not change this to self.anything_else
-        # preload the welcome screen on app startup
-        self.root.preload_screens(["welcome"])
+        self.root = Root()
+        self.root.load_screen("welcome", preload=True)
 
-    def on_start(self):
         self.root.push("welcome")
 
 

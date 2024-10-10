@@ -15,23 +15,34 @@ from libs.applibs.utils import file_utils
 logging.basicConfig(level=logging.INFO)
 
 
-################################################# OPTIMISED DATA SHARING METHODS ####################################
-
-
 class Root(MDScreenManager):
-    history = deque()  # List of tuples (screen_name, side)
-    shared_data = {}
+    """
+    The Root class manages screen transitions and caching for a Kivy-based application.
+    It handles screen navigation, shared data, and memory management of screens using caches.
+    """
 
-    _screen_cache = {}  # Cache screens for faster loading
-    _kv_cache = {}  # Cache KV so they dont get loaded every single time
-    _preload_cache = {}  # Track preloaded screens
-    back_press_count = 0  # Track back button presses
-    back_press_timer = None  # Timer reference for resseting the back_press_count
+    history = (
+        deque()
+    )  # List of tuples (screen_name, side) to track screen navigation history.
+    shared_data = {}  # Global shared data store for inter-screen communication.
+
+    # Caches to improve performance
+    _screen_cache = {}  # Cache loaded screens to avoid reloading them.
+    _kv_cache = {}  # Cache KV files to avoid re-loading them.
+    _preload_cache = {}  # Cache for preloaded screens to speed up future loads.
+
+    back_press_count = 0  # Tracks back button presses for exiting the app.
+    back_press_timer = None  # Timer reference for resetting back_press_count.
 
     def __init__(self, **kwargs):
+        """
+        Initializes the Root screen manager, binds the back button handler,
+        and loads screen data from the JSON configuration file.
+        """
         super().__init__(**kwargs)
         Window.bind(on_keyboard=self._handle_keyboard)
 
+        # Load screen data from JSON configuration file.
         try:
             with open(file_utils.abs_path("assets/screens.json")) as f:
                 self.screens_data = json.load(f)
@@ -42,188 +53,250 @@ class Root(MDScreenManager):
     def push(
         self, screen_name: str, side: str = "left", transition_type: str = "slide"
     ) -> None:
-        """Appends the screen to the navigation history and sets `screen_name` as the current screen."""
+        """
+        Pushes a new screen onto the navigation stack and transitions to it.
+
+        :param screen_name: Name of the screen to navigate to.
+        :param side: The direction of the transition ('left', 'right', etc.).
+        :param transition_type: The type of transition ('slide', 'fade', etc.).
+        """
         if self.current != screen_name:
             self.history.append((screen_name, side))
 
-        # profile the screen loading logic
-        # self.profile = cProfile.Profile()
-        # self.profile.enable()
-
+        # Handle screen transition based on the type.
+        self.set_transition(transition_type, side)
         self.load_screen(screen_name)
+        self.current = screen_name
 
-        # self.profile.disable()
-        # self.profile.dump_stats("tests/loading_screen.profile")
+    def set_transition(self, transition_type: str, side: str) -> None:
+        """
+        Sets the transition type and direction for screen navigation.
 
+        :param transition_type: The type of transition (slide, fade, etc.).
+        :param side: The direction of the transition.
+        """
         if transition_type == "slide":
             self.transition.direction = side
         elif transition_type == "fade":
             self.transition = FadeTransition()
         else:
             logging.warning(
-                f"Unknown transition type: {transition_type}. Defaulting to 'slide'."
+                f"Unknown transition type: {transition_type}, defaulting to 'slide'."
             )
             self.transition.direction = side
-
-        self.current = screen_name
 
     def push_replacement(
         self, screen_name: str, side: str = "left", transition_type: str = "slide"
     ) -> None:
-        """Clears the navigation history and sets the current screen to `screen_name`."""
+        """
+        Replaces the entire navigation stack with the new screen.
+
+        :param screen_name: Name of the screen to set as the new root screen.
+        :param side: Direction of the transition.
+        :param transition_type: Type of transition.
+        """
         self.history.clear()
         self.push(screen_name, side, transition_type)
 
     def preload_screens(self, screen_names: list) -> None:
-        """Preloads the specified screens in the background for faster navigation."""
+        """
+        Preloads a list of screens asynchronously to improve future load times.
+
+        :param screen_names: List of screen names to preload.
+        """
         for screen_name in screen_names:
             if (
                 screen_name not in self._screen_cache
                 and screen_name not in self._preload_cache
             ):
-                self.load_screen(screen_name, preload=True)
+                Clock.schedule_once(
+                    lambda dt: self.load_screen(screen_name, preload=True)
+                )
 
     def clear_cache(self) -> None:
-        """Clears the screen and KV caches to free up memory."""
+        """
+        Clears the screen and KV caches to free up memory.
+        """
         self._screen_cache.clear()
         self._kv_cache.clear()
         logging.info("Caches cleared.")
 
     def remove_widget_only(self, screen_name: str) -> None:
         """
-        Removes the screen widget from the ScreenManager but keeps the screen in the cache.
-        This is useful for freeing widget resources while keeping the cached screen object.
+        Removes a screen widget from the ScreenManager but keeps it in the screen cache.
+        Useful for freeing up resources while maintaining a cached version of the screen.
+
+        :param screen_name: Name of the screen to remove.
         """
         if screen_name in self._screen_cache:
             screen = self._screen_cache[screen_name]
             if self.has_screen(screen_name):
                 self.remove_widget(screen)
-                logging.info(
-                    f"Screen widget {screen_name} removed from the ScreenManager but kept in cache."
-                )
+                logging.info(f"Screen widget {screen_name} removed but kept in cache.")
             else:
-                logging.warning(
-                    f"Screen {screen_name} is not currently loaded in the ScreenManager."
-                )
+                logging.warning(f"Screen {screen_name} is not currently loaded.")
 
     def remove_screen_from_cache(self, screen_name: str) -> None:
         """
-        Removes a screen from both the cache and the ScreenManager, freeing up memory completely.
+        Completely removes a screen from both the cache and the ScreenManager.
+        Frees up memory by fully unloading the screen.
+
+        :param screen_name: Name of the screen to remove from the cache and ScreenManager.
         """
         if screen_name in self._screen_cache:
             screen = self._screen_cache.pop(screen_name)
             if self.has_screen(screen_name):
                 self.remove_widget(screen)
-            logging.info(
-                f"Screen {screen_name} removed from both cache and ScreenManager."
-            )
+            logging.info(f"Screen {screen_name} removed from cache and ScreenManager.")
         else:
             logging.warning(f"Screen {screen_name} not found in cache.")
 
     def back(self) -> None:
-        """Removes the current screen from the navigation history and sets the current screen to the previous one."""
+        """
+        Handles the back navigation. If the history stack is empty, it prompts the user to
+        press back twice to exit the app. Otherwise, navigates to the previous screen.
+        """
         if len(self.history) <= 1:
-            self.back_press_count += 1
-            if self.back_press_count == 2:
-                MDApp.get_running_app().stop()  # Exit the app
-            else:
-                logging.info("Press back again to exit.")
+            self._handle_back_press_to_exit()
+            return
 
-                # Reset back_press_count after 2 seconds
-                if self.back_press_timer:
-                    self.back_press_timer.cancel()  # Cancel any existing timer
+        self.back_press_count = 0  # Reset counter if navigating back.
+
+        # Pop the current screen and navigate to the previous one.
+        _cur_screen, cur_side = self.history.pop()
+        prev_screen, _ = self.history[-1]
+        self.transition.direction = self._reverse_direction(cur_side)
+        self.current = prev_screen
+
+    def _handle_back_press_to_exit(self) -> None:
+        """
+        Manages the logic to exit the app if back is pressed twice within 2 seconds.
+        """
+        self.back_press_count += 1
+        if self.back_press_count == 2:
+            MDApp.get_running_app().stop()  # Exit the app
+        else:
+            logging.info("Press back again to exit.")
+            if not self.back_press_timer:
                 self.back_press_timer = Clock.schedule_once(
                     self.reset_back_press_count, 2
                 )
-            return
-        else:
-            self.back_press_count = 0  # Reset counter if navigating back
 
-        _cur_screen, cur_side = self.history.pop()
-        prev_screen, _ = self.history[-1]
+    def _reverse_direction(self, cur_side: str) -> str:
+        """
+        Returns the reverse direction of a given transition direction.
 
-        self.transition.direction = {
-            "left": "right",
-            "right": "left",
-            "up": "down",
-            "down": "up",
-        }.get(cur_side, "left")
-
-        self.current = prev_screen
+        :param cur_side: The current direction of transition.
+        :return: The reversed transition direction.
+        """
+        return {"left": "right", "right": "left", "up": "down", "down": "up"}.get(
+            cur_side, "left"
+        )
 
     def reset_back_press_count(self, dt: float) -> None:
-        """Resets the back press count after the specified duration."""
+        """
+        Resets the back press count after a delay, allowing the user to exit the app by pressing back twice.
+
+        :param dt: The time duration after which the count is reset.
+        """
         self.back_press_count = 0
+        self.back_press_timer = None
 
     def set_shared_data(self, key: str, value: Optional[any]) -> None:
-        """Sets a key-value pair in the shared data store."""
+        """
+        Sets a key-value pair in the shared data store.
+
+        :param key: The key for the shared data.
+        :param value: The value to be associated with the key.
+        """
         self.shared_data[key] = value
 
     def get_shared_data(self, key: str) -> Optional[any]:
-        """Returns the value associated with `key` in the shared data store."""
-        return self.shared_data.get(key, None)
+        """
+        Retrieves a value from the shared data store by its key.
+
+        :param key: The key for the shared data.
+        :return: The value associated with the key, or None if not found.
+        """
+        return self.shared_data.get(key)
 
     def _handle_keyboard(self, instance, key: int, *args) -> bool:
+        """
+        Handles keyboard events, specifically the back button (ESC key).
+
+        :param instance: The instance of the keyboard event.
+        :param key: The key code of the pressed key.
+        :return: True if the key event was handled, False otherwise.
+        """
         if key == 27:  # ESC key
             self.back()
             return True
 
-    # profile the screen loading
-
     def load_screen(self, screen_name: str, preload: bool = False) -> None:
-        """Creates an instance of the screen object and adds it to the screen manager."""
-        if self.has_screen(screen_name):
-            return  # Screen already loaded
+        """
+        Loads a screen dynamically by its name, either as a preloaded screen or for immediate display.
 
-        if screen_name in self._screen_cache:
-            screen_object = self._screen_cache[screen_name]
+        :param screen_name: The name of the screen to load.
+        :param preload: If True, the screen is preloaded into the cache without being displayed.
+        """
+        if self.has_screen(screen_name) or screen_name in self._screen_cache:
+            return
+
+        screen = self.screens_data.get(screen_name)
+        if not screen:
+            logging.warning(f"Screen {screen_name} not found in data.")
+            return
+
+        # Load KV file if not already cached
+        kv_path = screen.get("kv")
+        if kv_path and kv_path not in self._kv_cache:
+            self._load_kv(kv_path)
+
+        # Instantiate and cache the screen object
+        screen_object = self._instantiate_screen(screen, screen_name)
+        if not screen_object:
+            return
+
+        if preload:
+            self._preload_cache[screen_name] = screen_object
         else:
-            screen = self.screens_data.get(screen_name)
-            if not screen:
-                logging.warning(f"Screen {screen_name} not found in screens data.")
-                return
+            self._screen_cache[screen_name] = screen_object
+            self.add_widget(screen_object)
 
-            try:
-                # Load KV file
-                kv_path = screen.get("kv")
-                if kv_path and kv_path not in self._kv_cache:
-                    kv_file_path = file_utils.abs_path(kv_path)
-                    try:
-                        Builder.load_file(kv_file_path)
-                        self._kv_cache[kv_path] = True
-                    except FileNotFoundError:
-                        logging.error(f"KV file {kv_file_path} not found.")
+    def _load_kv(self, kv_path: str) -> None:
+        """
+        Loads the KV file for the specified screen and caches it.
 
-                # Import screen class dynamically
-                module_name = screen.get("module")
-                class_name = screen.get("class")
+        :param kv_path: The path to the KV file.
+        """
+        kv_file_path = file_utils.abs_path(kv_path)
+        try:
+            Builder.load_file(kv_file_path)
+            self._kv_cache[kv_path] = True
+        except FileNotFoundError:
+            logging.error(f"KV file {kv_file_path} not found.")
 
-                if not module_name or not class_name:
-                    logging.warning(
-                        f"Missing 'module' or 'class' in screen data for {screen_name}."
-                    )
-                    return
+    def _instantiate_screen(self, screen: dict, screen_name: str):
+        """
+        Dynamically instantiates a screen class based on its module and class name.
 
-                try:
-                    module = importlib.import_module(module_name)
-                    screen_class = getattr(module, class_name)
-                except (ImportError, AttributeError) as e:
-                    logging.error(
-                        f"Error importing class {class_name} from module {module_name}: {e}"
-                    )
-                    return
+        :param screen: A dictionary containing screen metadata (module and class).
+        :param screen_name: The name of the screen to instantiate.
+        :return: The instantiated screen object, or None if an error occurs.
+        """
+        module_name = screen.get("module")
+        class_name = screen.get("class")
 
-                screen_object = screen_class()
-                screen_object.name = screen_name
+        if not module_name or not class_name:
+            logging.warning(f"Missing 'module' or 'class' for screen {screen_name}.")
+            return None
 
-                if preload:
-                    self._preload_cache[screen_name] = screen_object
-                    logging.info(f"Screen {screen_name} preloaded.")
-                else:
-                    self._screen_cache[screen_name] = screen_object
-                    self.add_widget(screen_object)
-
-            except FileNotFoundError:
-                logging.error(f"Screen {screen_name} definition file not found.")
-            except Exception as e:
-                logging.error(f"Unexpected error loading screen {screen_name}: {e}")
+        try:
+            module = importlib.import_module(module_name)
+            screen_class = getattr(module, class_name)
+            screen_object = screen_class()
+            screen_object.name = screen_name
+            return screen_object
+        except (ImportError, AttributeError) as e:
+            logging.error(f"Error loading {class_name} from {module_name}: {e}")
+            return None
