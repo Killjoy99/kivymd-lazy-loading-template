@@ -1,7 +1,10 @@
 # Kivy - KivyMD Lazy Loading Template
 
+![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Kivy: Version](https://img.shields.io/badge/kivy->=2.3.0-green.svg)
+![Kivymd: Version](https://img.shields.io/badge/kivymd-2.0.1.dev0-green.svg)
 ![Build Status](https://github.com/Killjoy99/kivymd-lazy-loading-template/actions/workflows/build.yaml/badge.svg)
 ![Tests](https://github.com/Killjoy99/kivymd-lazy-loading-template/actions/workflows/tests.yaml/badge.svg)
 

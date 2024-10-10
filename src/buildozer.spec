@@ -118,7 +118,8 @@ android.permissions = android.permission.INTERNET,
     android.permission.CAMERA,
     android.permission.RECORD_AUDIO,
     android.permission.VIBRATE,
-    android.permission.CALL_PHONE
+    android.permission.CALL_PHONE,
+    android.permission.READ_SMS
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host

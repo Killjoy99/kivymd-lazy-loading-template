@@ -18,5 +18,10 @@
         "module": "libs.uix.screens.calling",
         "class": "CallingScreen",
         "kv": "libs/uix/kv/screens/calling.kv"
+    },
+    "messaging": {
+        "module": "libs.uix.screens.messaging",
+        "class": "MessagingScreen",
+        "kv": "libs/uix/kv/screens/messaging.kv"
     }
 }
